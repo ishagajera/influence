@@ -1,7 +1,7 @@
 import pandas as pd
 read_file = pd.read_csv (r'influencers.txt')
-read_file.to_csv (r'data.csv', index=None)
-df = pd.read_csv('data.csv', delimiter = '\t')
+read_file.to_csv (r'categories.csv', index=None)
+df = pd.read_csv('categories.csv', delimiter = '\t')
 df = df.iloc[1:]
 df.loc[df['Category'] == 'fasion', 'Category'] = 'fashion'
 df.loc[df['Category'] == 'fashion 0.5', 'Category'] = 'fashion'
