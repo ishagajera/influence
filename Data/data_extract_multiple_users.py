@@ -1,9 +1,3 @@
-import instaloader
-import pandas as pd
-from datetime import datetime
-import time
-from itertools import dropwhile, takewhile
-import csv
 import categories
 import data_extract_one_profile as usersdata
 
