@@ -1,5 +1,5 @@
-import React, {useEffect, useState}  from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import React, { useState}  from 'react'
+import {  useNavigate } from 'react-router-dom'
 import Validation from './FormValidation';
 
 import axios from 'axios';
@@ -39,24 +39,16 @@ function Form() {
         event.preventDefault();
         var formData = new FormData();
        
-    //    var str = String(file);
+
    
         for(const val in values) {
-            // console.log(val)
+           
             formData.append(val,values[val].length === 0 ? null : values[val][0]);
         }
         formData.append('files',file)
-        console.log("printing form data")
-        console.log(formData)
-        // console.log(event.target[0])
-        // formData.append('images',e.target.files[0])
-        // const file_name = event.target.files[0];
-        // console.log("img file name")
-        // console.log(file_name)
-        // console.log(event.target[3].value)
-        
-        // console.log("contents of values")
-        // console.log(values)
+        // console.log("printing form data")
+        // console.log(formData)
+     
         const err = Validation(values); 
         setErrors(err); 
       
@@ -69,9 +61,7 @@ function Form() {
 
                 }
             }
-            // console.log("inside submit form data")
-            // console.log(values)
-            // console.log(formData)
+           
             axios.post("http://localhost:8081/form",formData,config)
             
             .then(res => {
@@ -82,7 +72,7 @@ function Form() {
               
                 
                if(res.data === "Success") {
-                navigate('/');
+                navigate('/home');
                }
                else {
                 alert("Error");

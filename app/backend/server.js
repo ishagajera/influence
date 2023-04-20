@@ -47,19 +47,15 @@ const imgconfig = multer.diskStorage({
         callback(null,"./uploads");
     },
     filename:(req,file,callback)=>{
-        // console.log("inside filename")
-        // console.log(file)
-        //const ext = file.mimetype.split("/")[1];
+        
         callback(null,`image-${Date.now()}.${file.originalname}`)
     }
 });
 // img filter
 const isImage = (req,file,callback)=>{
-    //if(file.mimetype.startsWith("image")){
+    
         callback(null,true)
-    // }else{
-    //     callback(null,Error("only image is allowd"))
-    // }
+    
 };
 const upload = multer({
     storage:imgconfig,
@@ -127,18 +123,18 @@ app.post('/login',[
 })
 
 app.post('/form', upload.single("files"), (req, res) => {
-    // console.log(__dirname)   
+      
     const sql_insert = "INSERT INTO posts (productname,productdesc,category,img) VALUES (?)";
-    
+    // console.log(req)
     const values = [        
         req.body.productname,        
         req.body.productdesc,        
         req.body.category,   
-        req.body.image, 
+        req.file.filename, 
     ];
-    // console.log(values)
-    console.log("printing req")
-    console.log(req)   
+   
+    // console.log("printing req")
+    // console.log(req)   
         db.query(sql_insert, [values], (err, data) => {
         if(err) {
             return res.json("Error");        
@@ -146,6 +142,25 @@ app.post('/form', upload.single("files"), (req, res) => {
         return res.json("Success");    
         })
     })  
+
+    app.get("/getdata",(req,res)=>{
+        try {
+            db.query("SELECT * FROM posts",(err,result)=>{
+                // console.log(result)
+                if(err){
+                    console.log("error select")
+                }else{
+                    console.log("data get")
+                    // console.log(result)
+                    res.status(201).json({status:201,data:result})
+                }
+            })
+        } catch (error) {
+            res.status(422).json({status:422,error})
+        }
+    });
+
+
 
 app.listen(port, ()=> {    
     console.log("listening");
