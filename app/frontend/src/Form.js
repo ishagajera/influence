@@ -24,8 +24,11 @@ function Form() {
         
     }
     const setimgfile = (event)=>{
+
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
-        setFile(event.target.value)
+        // console.log("setting setFile")
+        // console.log(event.target.files[0])
+        setFile(event.target.files[0])
     }
 
     var getFilename = function (str) {
@@ -35,39 +38,48 @@ function Form() {
     const handleSubmit = (event) => {
         event.preventDefault();
         var formData = new FormData();
-        // console.log(file)
        
-       // let str = file.toString;
-       var str = String(file);
-       let temp = str.substring(str.lastIndexOf('\\')+1);
-       // var fileName = getFilename(temp);
-        console.log("hellooo")
-        console.log(temp)
-        formData.append("image",temp)
+    //    var str = String(file);
+   
+        for(const val in values) {
+            // console.log(val)
+            formData.append(val,values[val].length === 0 ? null : values[val][0]);
+        }
+        formData.append('files',file)
+        console.log("printing form data")
+        console.log(formData)
+        // console.log(event.target[0])
+        // formData.append('images',e.target.files[0])
         // const file_name = event.target.files[0];
+        // console.log("img file name")
         // console.log(file_name)
-        // console.log("contents of event:")
-        // console.log(event.target)
-        // setFile(URL.createObjectURL(values.image));
         // console.log(event.target[3].value)
+        
         // console.log("contents of values")
         // console.log(values)
         const err = Validation(values); 
         setErrors(err); 
-        
-        // console.log(" after setErrors Validation")
-        // console.log(err)
+      
         if(err.productname === "" && err.productdesc === "" && err.category === "" && err.image === "") {
-            
-            axios.post("http://localhost:8081/form", formData,values)//values)
+            const config = {
+                headers:{
+                "Content-Type":"multipart/form-data",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH"
+
+                }
+            }
+            // console.log("inside submit form data")
+            // console.log(values)
+            // console.log(formData)
+            axios.post("http://localhost:8081/form",formData,config)
             
             .then(res => {
-                // console.log("printing res")
-                // console.log(res)
+              
                 if(res.data.errors) {                    
                     setBackendError(res.data.errors);                
                 } 
-                // console.log("inside axios.post")
+              
                 
                if(res.data === "Success") {
                 navigate('/');
@@ -114,7 +126,7 @@ function Form() {
                     </div>
                     <div className = 'mb-3'>
                         <label htmlfor="image"><strong> Image</strong> </label>
-                        <input type="file"  name ="image" onChange={setimgfile}  className='form-control rounded-0'/>
+                        <input filename={file} type="file"  name ="image" onChange={setimgfile}  className='form-control rounded-0'/>
                         {errors.image && <span className="text-danger">{errors.image}</span>}
                     </div>
                     <button type="submit" className = "btn btn-success w-100 rounded-0">Submit</button>

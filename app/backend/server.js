@@ -1,4 +1,8 @@
+// require("dotenv").config();
 const express = require("express");
+
+const port = 8081;//8004;
+
 
 const mysql = require('mysql');
 
@@ -7,27 +11,26 @@ const multer = require('multer');
 const { check, validationResult } = require('express-validator');
 const moment = require("moment");
 
-// const storage = multer.diskStorage({
-//     destination:(req,file,cb) =>{
-//         cb(null,"./");
-//     },
-//     filename: function(req,file,cb){
-//         const ext = file.mimetype.split("/")[1];
-//         cb(null,'uploads/${file.originalname}-${Date.now()}.${ext}');
-
-//     }
-// });
-
-// const upload = multer({
-//     storage: storage
-// });
 const path = require('path');
 
+const app1 = express();
 const app = express();
-
 app.use(cors());
+
 app.use(express.json());
-app.use("/uploads",express.static("./uploads"))
+app.use(express.static("uploads"))
+app.use(express.urlencoded({extended: true}))
+
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
+   
+    next();
+    });
 
 const db = mysql.createConnection({
         host: "localhost",
@@ -44,8 +47,8 @@ const imgconfig = multer.diskStorage({
         callback(null,"./uploads");
     },
     filename:(req,file,callback)=>{
-        console.log("inside filename")
-        console.log(file)
+        // console.log("inside filename")
+        // console.log(file)
         //const ext = file.mimetype.split("/")[1];
         callback(null,`image-${Date.now()}.${file.originalname}`)
     }
@@ -60,7 +63,7 @@ const isImage = (req,file,callback)=>{
 };
 const upload = multer({
     storage:imgconfig,
-    //fileFilter:isImage,
+    fileFilter:isImage,
 });
 
 
@@ -123,18 +126,19 @@ app.post('/login',[
     })
 })
 
-app.post('/form',upload.single("image"), (req, res) => {    
-    console.log("value of upload: ") 
-    console.log(upload)
+app.post('/form', upload.single("files"), (req, res) => {
+    // console.log(__dirname)   
     const sql_insert = "INSERT INTO posts (productname,productdesc,category,img) VALUES (?)";
-    // console.log("printing req:")
-    // console.log(req.body.productdesc)
+    
     const values = [        
         req.body.productname,        
         req.body.productdesc,        
         req.body.category,   
         req.body.image, 
-    ];   
+    ];
+    // console.log(values)
+    console.log("printing req")
+    console.log(req)   
         db.query(sql_insert, [values], (err, data) => {
         if(err) {
             return res.json("Error");        
@@ -143,6 +147,8 @@ app.post('/form',upload.single("image"), (req, res) => {
         })
     })  
 
-app.listen(8081, ()=> {    
+app.listen(port, ()=> {    
     console.log("listening");
 })
+
+module.exports = app;
