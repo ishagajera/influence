@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import Validation from './LoginValidation';
 
+
 function Login() {    
     const [values, setValues] = useState({        
         email:'',        
@@ -41,7 +42,8 @@ const handleSubmit =(event) => {
                     //console.log("hi");                      
                     navigate('/home');                    
                 } 
-                else {                        
+                else {  
+                    navigate("/signup");                      
                     alert("No record existed");                    
                 }                
             }                            

@@ -46,8 +46,8 @@ function Form() {
             formData.append(val,values[val].length === 0 ? null : values[val][0]);
         }
         formData.append('files',file)
-        // console.log("printing form data")
-        // console.log(formData)
+        console.log("printing form data")
+        console.log(formData)
      
         const err = Validation(values); 
         setErrors(err); 

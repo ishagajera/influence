@@ -9,8 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-
-
+import CardDisplay from './components/CardDisplay'
 const Home = () => {
 
     const [data, setData] = useState([]);
@@ -413,6 +412,7 @@ const Home = () => {
                 </div>
 
                     </Tab>
+                   
                 </Tabs>
 
                

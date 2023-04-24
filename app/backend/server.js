@@ -48,7 +48,7 @@ const imgconfig = multer.diskStorage({
     },
     filename:(req,file,callback)=>{
         
-        callback(null,`image-${Date.now()}.${file.originalname}`)
+        callback(null,`profileimg-.${file.originalname}`)
     }
 });
 // img filter
@@ -65,16 +65,20 @@ const upload = multer({
 
 
 
-app.post('/signup', (req, res) => {     
+app.post('/signup', upload.single("files"), (req, res) => {     
         const sql = "SELECT * FROM login WHERE username = ?";
         const sql_email = "SELECT * FROM login WHERE email = ?";
-        const sql_insert = "INSERT INTO login (username,email,password) VALUES (?)";
+        const sql_insert = "INSERT INTO login (username,email,password,typeofuser,profileimg) VALUES (?)";
         const values = [        
             req.body.name,        
             req.body.email,        
-            req.body.password,    
+            req.body.password,
+            req.body.typeofuser,
+            req.file.filename,    
         ];   
     db.query(sql,req.body.name, (err, data) => {
+        console.log("printing data")
+        console.log(data)
         if (data.length > 0 && req.body.name == data[0].username ) {
          
             return res.json("Username Already Registered");
