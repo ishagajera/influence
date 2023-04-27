@@ -10,52 +10,53 @@ import LandingPage from './LandingPage'
 import { AppContext } from "./lib/contextLib";
 import AuthService from './services/auth.service';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Container from 'react-bootstrap/esm/Container';
+import InfluencerProfile from './influencerProfile';
+import Explore from './Explore'
 function App() {
-  const [isAuthenticated, userHasAuthenticated] = useState("null");
-  
+ 
   function handleLogout() {
-    // AuthService.logout();
-    userHasAuthenticated("null");
     localStorage.removeItem("user")
-
   }
   
   return (
-   
-   <div>
- 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" >InFluence</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-      <a class="nav-link" href="http://localhost:3000/">LandingPage</a>
-      </li>
-      {JSON.parse(localStorage.getItem("user")) != "null" ? (
-    <li float="left" class="nav-item">
-    <a class="nav-link" onClick={handleLogout} >Logout</a>
-    <a class="nav-link" href="http://localhost:3000/home">Home</a>
-    <a class="nav-link" href="http://localhost:3000/home">My Profile</a>
-    <a class="nav-link" href="http://localhost:3000/home">Explore Influencers</a>
-  </li>
+    <>
+    <Navbar bg ='dark' variant = "dark">
+      <Container>
+        <Navbar.Brand>InFluence</Navbar.Brand>
+          <Nav className='me-auto'>
+            <Nav.Link href = "/">LandingPage</Nav.Link>
+          </Nav>
+        { console.log("hi")}
+         {console.log(JSON.parse(localStorage.getItem("user")))}
+          {JSON.parse(localStorage.getItem("user")) != null ? (
+            <>
+       <Nav>
+      <Nav.Link  href="/login" onClick={handleLogout}>Logout</Nav.Link>
+      <Nav.Link href="/home">Home</Nav.Link>
+      <Nav.Link href="/influencerProfile">My Profile</Nav.Link>
+      <Nav.Link href="/exploreinf">Explore Influencers</Nav.Link></Nav>
+      </>
  
   ) : (
     <>
-      <a class="nav-link" href="http://localhost:3000/signup">Signup</a>
-      <a class="nav-link" href="http://localhost:3000/login">Login</a>
-     
+    <Nav>
+    <Nav.Link href="/signup">Sign up</Nav.Link></Nav>
+    <Nav>
+    <Nav.Link href="/login">Login</Nav.Link></Nav>
+      
     </>
   )}
+  
+      </Container>
+   </Navbar>
+ 
+ 
+   
 
-    </ul>
-    
-  </div>
-</nav>
-<AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+
 <BrowserRouter>
     <Routes>
     <Route path="/" element = {<LandingPage />}></Route>
@@ -63,11 +64,13 @@ function App() {
       <Route path="/signup" element = {<Signup />}></Route>
       <Route path="/home" element = {<Home />}></Route>
       <Route path="/form" element = {<Form />}></Route>
+      <Route path="/influencerProfile" element = {<InfluencerProfile />}></Route>
+      <Route path="/exploreinf" element = {<Explore />}></Route>
     </Routes>
     </BrowserRouter>
     
-    </AppContext.Provider>
-    </div>
+    
+   </>
   )
 }
 

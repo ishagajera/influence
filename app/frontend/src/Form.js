@@ -6,8 +6,8 @@ import axios from 'axios';
 import AuthService from "./services/auth.service";
 function Form() {
     const currentUser = AuthService.getCurrentUser();
-    console.log("current user is:")
-    console.log(currentUser)
+    // console.log("current user is:")
+    // console.log(currentUser)
     const [useremail, setItems] = useState([]);
 
     useEffect(() => {

@@ -93,8 +93,7 @@ app.post('/signup', upload.single("files"), (req, res) => {
             req.file.filename,    
         ];   
     db.query(sql,req.body.name, (err, data) => {
-        console.log("printing data")
-        console.log(data)
+       
         if (data.length > 0 && req.body.name == data[0].username ) {
          
             return res.json("Username Already Registered");
@@ -153,17 +152,13 @@ app.post('/form', upload_post.single("files"), (req, res) => {
         req.body.category,   
         req.file.filename, 
     ];
-    // console.log("hi curr user :");
-    // console.log(req.body.useremail);
-      
-    // console.log("printing req")
-    // console.log(req)   
+ 
     db.query(sql_get_username, [req.body.useremail], (err, data) => {
         if(data.length === 0) {
             return res.json("Error");        
         } 
-        console.log("printing data after sql fetc")
-        console.log(data)
+        // console.log("printing data after sql fetc")
+        // console.log(data)
         return res.json(data);    
         })
     db.query(sql_insert, [values], (err, data) => {
@@ -177,7 +172,7 @@ app.post('/form', upload_post.single("files"), (req, res) => {
     app.get("/getdata",(req,res)=>{
         try {
             db.query("SELECT * FROM posts",(err,result)=>{
-                // console.log(result)
+              
                 if(err){
                     console.log("error select")
                 }else{
@@ -191,7 +186,59 @@ app.post('/form', upload_post.single("files"), (req, res) => {
         }
     });
 
+//display influencer profile
+app.get("/getinfluencerdata",(req,res)=>{
+    // const sql_get_user = "SELECT * FROM influencer_data WHERE Username = ?";
+    const sql_get_user = "SELECT * FROM influencer_data c, login n WHERE c.Username = n.Username";
+    const sql_get_username = "SELECT * FROM login WHERE email = ?";
+ 
+    
+    var username_fetched =""
+    
+    try {
+        db.query(sql_get_username, [req.query.useremail], (err, data) => {
+            if(data.length === 0) {
+                return res.json("Error");        
+            } 
 
+           
+            username_fetched = data[0].username
+            var profileimg_fetched = data[0].profileimg
+           
+
+            db.query(sql_get_user,[username_fetched],(err,result)=>{
+             
+                if(err){
+                    console.log("error select influencer")
+                }else{
+                  
+                  
+                    res.status(201).json({status:201,data:result})
+                }
+            })
+
+            })
+         
+        
+    } catch (error) {
+        res.status(422).json({status:422,error})
+    }
+});
+
+app.get("/getexploredata",(req,res)=>{
+    try {
+        db.query("select DISTINCT * from influencer_categories c,influencer_data n WHERE c.Username=n.Username order by normalized_rating desc",(err,result)=>{
+            if(err){
+                console.log("error select influencer")
+            }else{
+                console.log("data explore get")
+                res.status(201).json({status:201,data:result})
+            }
+        })
+    } catch (error) {
+        res.status(422).json({status:422,error})
+    }
+});
 
 app.listen(port, ()=> {    
     console.log("listening");

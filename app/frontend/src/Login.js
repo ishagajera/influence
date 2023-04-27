@@ -5,10 +5,9 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Validation from './LoginValidation';
-import { useAppContext } from "./lib/contextLib";
-import AuthService from "./services/auth.service";
+
 function Login() {    
-    const { userHasAuthenticated } = useAppContext();
+   
     const [values, setValues] = useState({        
         email:'',        
         password:'',
@@ -38,10 +37,9 @@ function Login() {
                 else {                    
                     setBackendError([]);                    
                     if(res.data === "Success") {  
-                        userHasAuthenticated(values.email);
+                    
                         localStorage.setItem("user", JSON.stringify(values.email));
-                        // console.log(res.data)
-                        //console.log("hi");                      
+                                           
                         navigate('/home');                    
                     } 
                     else {  
