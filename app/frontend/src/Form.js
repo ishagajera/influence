@@ -1,11 +1,23 @@
-import React, { useState}  from 'react'
+import React, { useState, useEffect}  from 'react'
 import {  useNavigate } from 'react-router-dom'
 import Validation from './FormValidation';
 
 import axios from 'axios';
-
+import AuthService from "./services/auth.service";
 function Form() {
+    const currentUser = AuthService.getCurrentUser();
+    console.log("current user is:")
+    console.log(currentUser)
+    const [useremail, setItems] = useState([]);
 
+    useEffect(() => {
+    const uemail = JSON.parse(localStorage.getItem('user'));
+    if (uemail) {
+    setItems(uemail);
+    }
+    }, [])
+    console.log("printing useremail using localstorage")
+    console.log(useremail)
     const [values, setValues] = useState ({
         productname: '',
         productdesc: '',
@@ -26,8 +38,7 @@ function Form() {
     const setimgfile = (event)=>{
 
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
-        // console.log("setting setFile")
-        // console.log(event.target.files[0])
+        
         setFile(event.target.files[0])
     }
 
@@ -38,19 +49,21 @@ function Form() {
     const handleSubmit = (event) => {
         event.preventDefault();
         var formData = new FormData();
-       
 
-   
         for(const val in values) {
            
             formData.append(val,values[val].length === 0 ? null : values[val][0]);
         }
         formData.append('files',file)
-        console.log("printing form data")
-        console.log(formData)
-     
         const err = Validation(values); 
         setErrors(err); 
+
+        // adding user's email to form data - so that on server side can fetch username and then add to
+        // db using the user name
+        formData.append('useremail',useremail)
+        console.log("printing form data")
+        console.log(formData)
+
       
         if(err.productname === "" && err.productdesc === "" && err.category === "" && err.image === "") {
             const config = {

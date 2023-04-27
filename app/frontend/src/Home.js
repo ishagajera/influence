@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import CardDisplay from './components/CardDisplay'
+import AuthService from './services/auth.service';
 const Home = () => {
 
     const [data, setData] = useState([]);
@@ -18,6 +19,9 @@ const Home = () => {
 
     //pill
     const [iconsActive, setIconsActive] = useState('pill1');
+    const getCurrentUser = () => {
+        return JSON.parse(localStorage.getItem("user"));
+      };
 
   const handleIconsClick = (value) => {
     if (value === iconsActive) {
@@ -34,8 +38,8 @@ const Home = () => {
           
             if (res.data.status === 201) {
             
-                console.log("data get");
-                console.log(res.data.data)
+                // console.log("data get");
+                // console.log(res.data.data)
                 setData(res.data.data)
     
             } else {
@@ -76,9 +80,7 @@ const Home = () => {
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                     {
                         data.length > 0 ? data.map((el, i) => {
-                            console.log("hello")
-                            console.log(el)
-                            // if (el.product_name === "Beauty 1" ) {
+                          
                             return (
                                 <>
                                     <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">

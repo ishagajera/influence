@@ -3,11 +3,6 @@ import { Link,useNavigate } from 'react-router-dom'
 import Validation from './SignupValidation';
 import axios from 'axios';
 
-// import * as React from 'react';
-import Box from '@mui/joy/Box';
-import Radio from '@mui/joy/Radio';
-import RadioGroup from '@mui/joy/RadioGroup';
-import Typography from '@mui/joy/Typography';
 
 function Signup() {
     const [values, setValues] = useState ({
@@ -26,8 +21,7 @@ function Signup() {
     const setimgfile = (event)=>{
 
       setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
-      // console.log("setting setFile")
-      // console.log(event.target.files[0])
+      
       setFile(event.target.files[0])
   }
     const handleSubmit = (event) => {
@@ -40,8 +34,8 @@ function Signup() {
             formData.append(val,values[val].length === 0 ? null : values[val][0]);
         }
         formData.append('files',file)
-        console.log("printing form data")
-        console.log(formData)
+        // console.log("printing form data")
+        // console.log(formData)
      
         
         if(err.name==="" && err.email === "" && err.password==="" && err.profileimg==="" && err.typeofuser==="") {
@@ -65,7 +59,7 @@ function Signup() {
                     navigate('/signup');
                 }
                 else
-                navigate('/home');
+                navigate('/login');
             })
             .catch(err => console.log(err));
         }

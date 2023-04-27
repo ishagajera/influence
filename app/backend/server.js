@@ -13,6 +13,7 @@ const moment = require("moment");
 
 const path = require('path');
 
+
 const app1 = express();
 const app = express();
 app.use(cors());
@@ -41,14 +42,14 @@ const db = mysql.createConnection({
 
 
 
-// img storage confing
+// img storage confing - for profile photo
 const imgconfig = multer.diskStorage({
     destination:(req,file,callback)=>{
         callback(null,"./uploads");
     },
     filename:(req,file,callback)=>{
         
-        callback(null,`profileimg-.${file.originalname}`)
+        callback(null,`profileimg-${file.originalname}`)
     }
 });
 // img filter
@@ -62,6 +63,21 @@ const upload = multer({
     fileFilter:isImage,
 });
 
+// img config for uploading pictures of promotion posts:
+const imgconfig_post = multer.diskStorage({
+    destination:(req,file,callback)=>{
+        callback(null,"./uploads");
+    },
+    filename:(req,file,callback)=>{
+        
+        callback(null,`image-${file.originalname}`)
+    }
+});
+
+const upload_post = multer({
+    storage:imgconfig_post,
+    fileFilter:isImage,
+});
 
 
 
@@ -126,20 +142,31 @@ app.post('/login',[
     })
 })
 
-app.post('/form', upload.single("files"), (req, res) => {
-      
-    const sql_insert = "INSERT INTO posts (productname,productdesc,category,img) VALUES (?)";
+app.post('/form', upload_post.single("files"), (req, res) => {
+    const sql_get_username = "SELECT * FROM login WHERE email = ?";
+    const sql_insert = "INSERT INTO posts (username,productname,productdesc,category,img) VALUES (?)";
     // console.log(req)
-    const values = [        
+    const values = [   
+        req.body.useremail,     
         req.body.productname,        
         req.body.productdesc,        
         req.body.category,   
         req.file.filename, 
     ];
-   
+    // console.log("hi curr user :");
+    // console.log(req.body.useremail);
+      
     // console.log("printing req")
     // console.log(req)   
-        db.query(sql_insert, [values], (err, data) => {
+    db.query(sql_get_username, [req.body.useremail], (err, data) => {
+        if(data.length === 0) {
+            return res.json("Error");        
+        } 
+        console.log("printing data after sql fetc")
+        console.log(data)
+        return res.json(data);    
+        })
+    db.query(sql_insert, [values], (err, data) => {
         if(err) {
             return res.json("Error");        
         } 

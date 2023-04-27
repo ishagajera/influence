@@ -1,56 +1,64 @@
 import axios from 'axios';
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 
 import Validation from './LoginValidation';
-
-
+import { useAppContext } from "./lib/contextLib";
+import AuthService from "./services/auth.service";
 function Login() {    
+    const { userHasAuthenticated } = useAppContext();
     const [values, setValues] = useState({        
         email:'',        
         password:'',
         rememberme :''    })    
-const navigate = useNavigate();
-const [errors, setErrors] = useState({})
-const [backendError, setBackendError] = useState([])
-const handleInput = (event) => {
-    console.log(event)
-    const x = event.target.name        
-    setValues(prev => ({...prev, [x]: [event.target.value]}))
-    
-    
-}    
-const handleSubmit =(event) => {        
-    event.preventDefault();        
-    const err = Validation(values); 
-    setErrors(err);        
-    if(err.email === "" && err.password === "") {            
-        axios.post('http://localhost:8081/login', values)
-        
-        .then(res => {   
-                    
-            if(res.data.errors) {                    
-                setBackendError(res.data.errors);                
-            } 
-            else {                    
-                setBackendError([]);                    
-                if(res.data === "Success") {  
-                    localStorage.setItem('user', res.data)
-                    console.log(res.data)
-                    //console.log("hi");                      
-                    navigate('/home');                    
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState({})
+    const [backendError, setBackendError] = useState([])
+    const handleInput = (event) => {
+        console.log(event)
+        const x = event.target.name        
+        setValues(prev => ({...prev, [x]: [event.target.value]}))
+    }
+
+
+    const handleSubmit =(event) => {        
+        event.preventDefault();        
+        const err = Validation(values); 
+        setErrors(err);        
+        if(err.email === "" && err.password === "") {            
+            axios.post('http://localhost:8081/login', values)
+            
+            .then(res => {   
+                        
+                if(res.data.errors) {                    
+                    setBackendError(res.data.errors);                
                 } 
-                else {  
-                    navigate("/signup");                      
-                    alert("No record existed");                    
-                }                
-            }                            
-        })            
-        .catch(err => console.log(err));        
-    }    
-}
+                else {                    
+                    setBackendError([]);                    
+                    if(res.data === "Success") {  
+                        userHasAuthenticated(values.email);
+                        localStorage.setItem("user", JSON.stringify(values.email));
+                        // console.log(res.data)
+                        //console.log("hi");                      
+                        navigate('/home');                    
+                    } 
+                    else {  
+                        navigate("/signup");                      
+                        alert("No record existed");                    
+                    }                
+                }                            
+            })            
+            .catch(err => console.log(err));        
+        }    
+    }
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(values.email));
+    }, [items]);
+
   return (    
   <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>        
   <div className='bg-white p-3 rounded w-25'>            
