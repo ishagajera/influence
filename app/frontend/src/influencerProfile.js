@@ -97,7 +97,7 @@ const InfluencerProfile = () => {
                         <Card.Text className="h4 text-muted mb-0 text-center">Posts</Card.Text>
                       </Col>
                       <Col size="6" className="text-center">
-                        <Card.Text className="mb-2 h1 text-center">16.3</Card.Text>
+                        <Card.Text className="mb-2 h1 text-center">{el.normalized_rating}</Card.Text>
                         <Card.Text className="h4 text-muted mb-0 text-center">Rating</Card.Text>
                       </Col>
                     </Row>

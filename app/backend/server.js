@@ -189,7 +189,7 @@ app.post('/form', upload_post.single("files"), (req, res) => {
 //display influencer profile
 app.get("/getinfluencerdata",(req,res)=>{
     // const sql_get_user = "SELECT * FROM influencer_data WHERE Username = ?";
-    const sql_get_user = "SELECT * FROM influencer_data c, login n WHERE c.Username = n.Username";
+    const sql_get_user = "SELECT * FROM influencer_data c, login n WHERE c.Username = n.Username and n.Username=?";
     const sql_get_username = "SELECT * FROM login WHERE email = ?";
  
     
