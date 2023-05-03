@@ -89,7 +89,7 @@ app.post('/signup', upload.single("files"), (req, res) => {
         const values = [        
             req.body.name,        
             req.body.email,        
-            req.body.password,
+            md5(req.body.password),
             req.body.typeofuser,
             req.file.filename,    
         ];   
@@ -122,8 +122,9 @@ app.post('/signup', upload.single("files"), (req, res) => {
 app.post('/login',[    
     check('email', "Email length error").isEmail().isLength({min: 10, max:30}),    
     check('password', "password length 8-10").isLength({min: 8, max: 10})], 
-    (req, res) => {    const sql = "SELECT * FROM login WHERE email = ? AND password = ?";    
-    db.query(sql, [req.body.email,req.body.password ], (err, data) => {
+    (req, res) => {    const sql = "SELECT * FROM login WHERE email = ? AND password = ?"; 
+     
+    db.query(sql, [req.body.email,md5(req.body.password)], (err, data) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()) {
             return res.json(errors);        

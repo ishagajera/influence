@@ -25,6 +25,8 @@ function Login() {
     const handleSubmit =(event) => {        
         event.preventDefault();        
         const err = Validation(values); 
+        // var encrypt_pass = md5(values.password);
+        // values.password = encrypt_pass;
         setErrors(err);        
         if(err.email === "" && err.password === "") {            
             axios.post('http://localhost:8081/login', values)
