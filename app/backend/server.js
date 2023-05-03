@@ -13,6 +13,7 @@ const moment = require("moment");
 
 const path = require('path');
 
+var md5 = require('md5');
 
 const app1 = express();
 const app = express();
@@ -169,7 +170,7 @@ app.post('/form', upload_post.single("files"), (req, res) => {
         })
     })  
 
-    app.get("/getdata",(req,res)=>{
+app.get("/getdata",(req,res)=>{
         try {
             db.query("SELECT * FROM posts",(err,result)=>{
               
@@ -186,44 +187,57 @@ app.post('/form', upload_post.single("files"), (req, res) => {
         }
     });
 
-//display influencer profile
-app.get("/getinfluencerdata",(req,res)=>{
-    // const sql_get_user = "SELECT * FROM influencer_data WHERE Username = ?";
-    const sql_get_user = "SELECT * FROM influencer_data c, login n WHERE c.Username = n.Username and n.Username=?";
-    const sql_get_username = "SELECT * FROM login WHERE email = ?";
- 
+//display influencer profile - myProfile option
+app.get("/getinfluencerdata",(req, res) => {
+        const sql_get_user = "SELECT * FROM influencer_data c, login n WHERE c.Username = n.Username and n.Username=?";
+        const sql_get_username = "SELECT * FROM login WHERE email = ?";
+        
+        try {
+            db.query(sql_get_username, [req.query.useremail], (err, data) => {
+                if(data.length === 0) {
+                    return res.json("Error");        
+                } 
+                username_fetched = data[0].username
+                var profileimg_fetched = data[0].profileimg
+                db.query(sql_get_user,[username_fetched],(err,result)=>{
+                
+                    if(err){
+                        console.log("error display my profile")
+                    }else{
+                        res.status(201).json({status:201,data:result})
+                    }
+                })
+
+                })
+            
+            
+        } catch (error) {
+            res.status(422).json({status:422,error})
+        }
     
-    var username_fetched =""
-    
+});
+
+//display influencer profile after clicking view profile button on explore influencers page
+    app.get("/showinfprofile",(req,res)=>{
+    const sql_get_user = "SELECT * FROM influencer_data  WHERE Username=?";
+    var username_fetched = req.query.username;
     try {
-        db.query(sql_get_username, [req.query.useremail], (err, data) => {
-            if(data.length === 0) {
-                return res.json("Error");        
-            } 
-
-           
-            username_fetched = data[0].username
-            var profileimg_fetched = data[0].profileimg
-           
-
+      
             db.query(sql_get_user,[username_fetched],(err,result)=>{
              
                 if(err){
-                    console.log("error select influencer")
+                    console.log("error display profile of influencer after clicking")
                 }else{
-                  
-                  
+                   
                     res.status(201).json({status:201,data:result})
                 }
-            })
-
-            })
-         
-        
+            })        
     } catch (error) {
         res.status(422).json({status:422,error})
     }
 });
+
+
 
 app.get("/getexploredata",(req,res)=>{
     try {

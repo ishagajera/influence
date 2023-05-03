@@ -9,23 +9,25 @@ import axios from 'axios';
 import AuthService from "./services/auth.service";
 
 
-
-
-const InfluencerProfile = () => {
-    const currentUser = AuthService.getCurrentUser();
+const ViewProfile = () => {
+  const displayUser = AuthService.getDisplayUser();
     const [fetched_data, setData] = useState([]);
+
     const getInfluencerData = async () => {
-    axios.get("http://localhost:8081/getinfluencerdata",{
+        axios.get("http://localhost:8081/showinfprofile",
+        {
           headers:{
             "Content-Type":"application/json",
             "charset":"utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH"
 
-          },
-        
+          } ,
           params :{
-            useremail: currentUser[0],
+            username : displayUser,
           }
-    })
+    }
+    )
         .then(res => {
           if(res.data.status === 201) {                    
             setData(res.data.data)  
@@ -40,6 +42,7 @@ const InfluencerProfile = () => {
 
     useEffect(() => {
         getInfluencerData()
+        
     }, [])
 
     return (
@@ -50,8 +53,10 @@ const InfluencerProfile = () => {
           <Col lg="8" className="mb-4 mb-lg-0">
 
           {        
-          
+                       
                         fetched_data.length > 0 ? fetched_data.map((el, i) => {
+                          console.log("printing el:")
+                          console.log(el.Username)
                             return (
                                 <>
 
@@ -59,8 +64,8 @@ const InfluencerProfile = () => {
               <Row className="g-0">
                 <Col md="4" className="gradient-custom text-center text-white"
                   style={{ padding: '.8rem', borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem', backgroundColor: 'black',  height: '32rem' }}>
-                  <Card.Img src={require( `C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
-                    alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" className="my-5" style={{ width: '170px' }} fluid />
+                  {/* <Card.Img src={require( `C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} */}
+                    {/* alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" className="my-5" style={{ width: '170px' }} fluid /> */}
                   <Card.Title style={{ fontWeight: 'bold' }} tag="h3">{el.Username}</Card.Title>
                   <br></br>
                   <Card.Text>
@@ -118,4 +123,4 @@ const InfluencerProfile = () => {
     )
 }
 
-export default InfluencerProfile;
+export default ViewProfile;

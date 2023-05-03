@@ -12,48 +12,19 @@ import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 
+const Explore = () => {    
+    const navigate = useNavigate();
+    const [values, setValues] = useState ({username:"",});
+    const handleInput = (event) => {
+        values.username = event.target.name
+        event.preventDefault(); 
+        localStorage.setItem("display_user", JSON.stringify(event.target.name));       
+        navigate('/viewProfile');   
 
-
-const Explore = () => {
-
-    // const [profile,setUsername] = useState("");
-
-    const history = useNavigate();
-
-    // const viewUsername = (e)=> {
-    //     console.log("printing username:")
-    //     console.log(e.target.value)
-    //     setUsername(e.target.value);
-    //     // console.log(profile)
-    //     var formData = new FormData();
-    //     formData.append("profile",e.target.value)
-    //     console.log("Printing form data")
-    //     console.log(formData)
-    //     axios.get("/viewProfile",formData)
-    //     .then(  
-    //         res => {
-    //             console.log("Inside explore . js");
-    //             // console.log(res.data.data);
-    //             if (res.data==="success") {
-    //                 history("/viewProfile")
-    //             }
-    //             else {
-    //                 console.log("error explore js")
-    //             }
-    //         }
-    //     )
-    //     .catch (
-    //         err=>console.log(err)
-    //     )
-    // };
-    
+    };
     const [data, setData] = useState([]);
-
-    // const [show, setShow] = useState(false);
-
-    //pill
-    // const [iconsActive, setIconsActive] = useState('pill1');
-
+    const [items, setItems] = useState([]);
+   
     const getUserData = async () => {
         const res = await axios.get("http://localhost:8081/getexploredata", {
             headers: {
@@ -71,7 +42,10 @@ const Explore = () => {
         }
     }
 
-    useEffect(() => {getUserData()}, [])
+    useEffect(() => {getUserData();
+        localStorage.setItem('display_user', JSON.stringify(values.username));
+    },
+    [items]);
 
     return (
         <>
@@ -88,7 +62,6 @@ const Explore = () => {
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        // if (el.product_name === "Beauty 1" ) {
                         return (
                             <>
                                 <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
@@ -97,10 +70,8 @@ const Explore = () => {
                                     <Card.Img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                     alt="Avatar" className="my-4" style={{ width: '100px' }} fluid />
                                         <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                        {/* <Button variant="primary"  href="/viewProfile" name={el.Username}>View Profile</Button> */}
-                                        {/* name = "profile" value={el.Username} */}
-                                        
+                                        <Card.Title>{el.normalized_rating}</Card.Title> 
+                                        <Button variant="primary" onClick={handleInput}  name={el.Username}>View Profile</Button>
                                     </Card.Body>
                                 </Card>
                                 <Col lg={3} className='mb-0 mb-lg-0'></Col>
@@ -108,7 +79,6 @@ const Explore = () => {
                             </>
                         )
                                         }
-                    // }
                     ) : ""
                 }
                 </Col>

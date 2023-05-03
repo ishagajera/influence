@@ -15,6 +15,7 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/esm/Container';
 import InfluencerProfile from './influencerProfile';
 import Explore from './Explore'
+import ViewProfile from './ViewProfile';
 function App() {
  
   function handleLogout() {
@@ -65,6 +66,7 @@ function App() {
       <Route path="/home" element = {<Home />}></Route>
       <Route path="/form" element = {<Form />}></Route>
       <Route path="/influencerProfile" element = {<InfluencerProfile />}></Route>
+      <Route path="/viewProfile" element = {<ViewProfile />}></Route>
       <Route path="/exploreinf" element = {<Explore />}></Route>
     </Routes>
     </BrowserRouter>
