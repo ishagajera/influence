@@ -29,16 +29,11 @@ function Signup() {
         const err = Validation(values);
         setErrors(err);
         var formData = new FormData();
-        // var encrypt_pass = md5(values.password);
-        // values.password = encrypt_pass;
         for(const val in values) {
            
             formData.append(val,values[val].length === 0 ? null : values[val][0]);
         }
         formData.append('files',file)
-        // console.log("printing form data")
-        // console.log(formData)
-     
         
         if(err.name==="" && err.email === "" && err.password==="" && err.profileimg==="" && err.typeofuser==="") {
           const config = {

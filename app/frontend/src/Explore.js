@@ -18,7 +18,7 @@ const Explore = () => {
     const handleInput = (event) => {
         values.username = event.target.name
         event.preventDefault(); 
-        localStorage.setItem("display_user", JSON.stringify(event.target.name));       
+        sessionStorage.setItem("display_user", JSON.stringify(event.target.name));       
         navigate('/viewProfile');   
 
     };
@@ -33,8 +33,6 @@ const Explore = () => {
         });
         
         if (res.data.status === 201) {
-            console.log("data get");
-            console.log(res.data.data)
             setData(res.data.data)
 
         } else {
@@ -43,7 +41,7 @@ const Explore = () => {
     }
 
     useEffect(() => {getUserData();
-        localStorage.setItem('display_user', JSON.stringify(values.username));
+        sessionStorage.setItem('display_user', JSON.stringify(values.username));
     },
     [items]);
 

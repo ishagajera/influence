@@ -9,54 +9,49 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import CardDisplay from './components/CardDisplay'
 import AuthService from './services/auth.service';
 const Home = () => {
-
     const [data, setData] = useState([]);
-
     const [show, setShow] = useState(false);
-
-    //pill
-    const [iconsActive, setIconsActive] = useState('pill1');
-    const getCurrentUser = () => {
-        return JSON.parse(localStorage.getItem("user"));
-      };
-
-  const handleIconsClick = (value) => {
-    if (value === iconsActive) {
-      return;
-    }
-
-    setIconsActive(value);
-  };
-
-    const getUserData = async () => {
-        axios.get("http://localhost:8081/getdata")
-            
+    const getInfoForSession = async () => {
+        axios.get("http://localhost:8081/getinfo",{
+            params:{
+                useremail:AuthService.getCurrentUser()
+            }
+        })  
         .then(res => {
-          
             if (res.data.status === 201) {
-            
-                // console.log("data get");
-                // console.log(res.data.data)
+                sessionStorage.setItem("loggedin_username", JSON.stringify(res.data.data[0].username));
+                sessionStorage.setItem("typeofuser", JSON.stringify(res.data.data[0].typeofuser));
+            } else {
+                console.log("error in setting session data")
+            }
+        })
+        .catch(err => console.log(err));
+    }
+    const getUserData = async () => {
+        axios.get("http://localhost:8081/getdata")  
+        .then(res => {
+            if (res.data.status === 201) {
                 setData(res.data.data)
-    
             } else {
                 console.log("error")
             }
         })
         .catch(err => console.log(err));
-        
-        
     }
     useEffect(() => {
-        getUserData()
+        // setInterval(() => {
+            getUserData();
+            getInfoForSession();
+        //     console.log("Delayed for 1 second.");
+        //   }, "1000");
+       
+        
     }, [])
 
     return (
         <>
-
             {
                 show ? <Alert variant="danger" onClose={() => setShow(false)} dismissible>
                     User Delete

@@ -16,29 +16,33 @@ import Container from 'react-bootstrap/esm/Container';
 import InfluencerProfile from './influencerProfile';
 import Explore from './Explore'
 import ViewProfile from './ViewProfile';
+import BrandProfile from './BrandProfile';
 function App() {
  
   function handleLogout() {
-    localStorage.removeItem("user")
+    sessionStorage.clear();
   }
-  
+useEffect(() => {
+  setInterval(() => {
+    // console.log("Delayed for 1 second.");
+  }, "1000");
+},[])  
   return (
     <>
-    <Navbar bg ='dark' variant = "dark">
+    <Navbar bg ='dark' variant = "dark" >
       <Container>
         <Navbar.Brand>InFluence</Navbar.Brand>
           <Nav className='me-auto'>
             <Nav.Link href = "/">LandingPage</Nav.Link>
           </Nav>
-        { console.log("hi")}
-         {console.log(JSON.parse(localStorage.getItem("user")))}
-          {JSON.parse(localStorage.getItem("user")) != null ? (
+          {JSON.parse(sessionStorage.getItem("user")) != null ? (
             <>
        <Nav>
-      <Nav.Link  href="/login" onClick={handleLogout}>Logout</Nav.Link>
+      <Nav.Link href="/login" onClick={handleLogout}>Logout</Nav.Link>
       <Nav.Link href="/home">Home</Nav.Link>
       <Nav.Link href="/influencerProfile">My Profile</Nav.Link>
-      <Nav.Link href="/exploreinf">Explore Influencers</Nav.Link></Nav>
+      <Nav.Link href="/exploreinf">Explore Influencers</Nav.Link>
+      <Nav.Link href="/brandProfile">Brand Profile</Nav.Link></Nav>
       </>
  
   ) : (
@@ -53,11 +57,6 @@ function App() {
   
       </Container>
    </Navbar>
- 
- 
-   
-
-
 <BrowserRouter>
     <Routes>
     <Route path="/" element = {<LandingPage />}></Route>
@@ -68,6 +67,7 @@ function App() {
       <Route path="/influencerProfile" element = {<InfluencerProfile />}></Route>
       <Route path="/viewProfile" element = {<ViewProfile />}></Route>
       <Route path="/exploreinf" element = {<Explore />}></Route>
+      <Route path="/brandProfile" element = {<BrandProfile />}></Route>
     </Routes>
     </BrowserRouter>
     

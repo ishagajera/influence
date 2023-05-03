@@ -7,10 +7,7 @@ import Card from 'react-bootstrap/Card';
 import { SocialIcon } from 'react-social-icons';
 import axios from 'axios';
 import AuthService from "./services/auth.service";
-
-
-
-
+import { FaCheckCircle } from 'react-icons/fa';
 const InfluencerProfile = () => {
     const currentUser = AuthService.getCurrentUser();
     const [fetched_data, setData] = useState([]);
@@ -59,9 +56,10 @@ const InfluencerProfile = () => {
               <Row className="g-0">
                 <Col md="4" className="gradient-custom text-center text-white"
                   style={{ padding: '.8rem', borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem', backgroundColor: 'black',  height: '32rem' }}>
-                  <Card.Img src={require( `C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
-                    alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" className="my-5" style={{ width: '170px' }} fluid />
-                  <Card.Title style={{ fontWeight: 'bold' }} tag="h3">{el.Username}</Card.Title>
+                 
+                     <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
+                    
+                  <Card.Title style={{ fontWeight: 'bold' }} tag="h3">{el.Username}  {el.Verified_status == "Verified"? <FaCheckCircle color="aqua"></FaCheckCircle>: null }</Card.Title>
                   <br></br>
                   <Card.Text>
                  
@@ -95,7 +93,7 @@ const InfluencerProfile = () => {
                     </Row>
                     <Row className="pt-1 text-center" style = {{height: '4rem'}}>
                         <Col size="6" className="mb-3 text-center">
-                        <SocialIcon network="instagram" url='https://www.instagram.com/el.Username}' />
+                        <SocialIcon network="instagram" url={ `https://www.instagram.com/${el.Username}` }></SocialIcon>
                        
                         </Col>
                     </Row>

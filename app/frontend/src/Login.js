@@ -25,8 +25,6 @@ function Login() {
     const handleSubmit =(event) => {        
         event.preventDefault();        
         const err = Validation(values); 
-        // var encrypt_pass = md5(values.password);
-        // values.password = encrypt_pass;
         setErrors(err);        
         if(err.email === "" && err.password === "") {            
             axios.post('http://localhost:8081/login', values)
@@ -39,9 +37,7 @@ function Login() {
                 else {                    
                     setBackendError([]);                    
                     if(res.data === "Success") {  
-                    
-                        localStorage.setItem("user", JSON.stringify(values.email));
-                                           
+                        sessionStorage.setItem("user", JSON.stringify(values.email));
                         navigate('/home');                    
                     } 
                     else {  
@@ -56,7 +52,7 @@ function Login() {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(values.email));
+    sessionStorage.setItem('user', JSON.stringify(values.email));
     }, [items]);
 
   return (    

@@ -3,45 +3,33 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-
 import { SocialIcon } from 'react-social-icons';
 import axios from 'axios';
-import AuthService from "./services/auth.service";
-import { FaCheckCircle } from 'react-icons/fa';
-const ViewProfile = () => {
-  const displayUser = AuthService.getDisplayUser();
-    const [fetched_data, setData] = useState([]);
+import { FaInstagram } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import {FaCheckCircle} from 'react-icons/fa';
+import AuthService from './services/auth.service';
 
-    const getInfluencerData = async () => {
-        axios.get("http://localhost:8081/showinfprofile",
-        {
-          headers:{
-            "Content-Type":"application/json",
-            "charset":"utf-8",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH"
-
-          } ,
-          params :{
-            username : displayUser,
-          }
-    }
-    )
-        .then(res => {
-          if(res.data.status === 201) {                    
-            setData(res.data.data)  
-          } 
+const BrandProfile = () => {
+    const [data, setData] = useState([]);
+    const curr_user = AuthService.getLoggedInUsername();
+    const getBrandData = async () => {
+        const res = await axios.get("http://localhost:8081/getbranddata", {
+            headers: {
+                "Content-Type": "application/json",
+                "charset":"utf-8"
+            }
+        });
         
-         else {
-          console.log("error")
-         }
-      })
-      .catch(err => console.log(err));  
+        if (res.data.status === 201) {
+            setData(res.data.data)
+        } else {
+            console.log("error in getting brand data")
+        }
     }
 
     useEffect(() => {
-        getInfluencerData()
-        
+        getBrandData()
     }, [])
 
     return (
@@ -52,10 +40,8 @@ const ViewProfile = () => {
           <Col lg="8" className="mb-4 mb-lg-0">
 
           {        
-                       
-                        fetched_data.length > 0 ? fetched_data.map((el, i) => {
-                          console.log("printing el:")
-                          console.log(el.Username)
+                        data.length > 0 ? data.map((el, i) => {
+                            if (el.Username === curr_user) {
                             return (
                                 <>
 
@@ -63,15 +49,20 @@ const ViewProfile = () => {
               <Row className="g-0">
                 <Col md="4" className="gradient-custom text-center text-white"
                   style={{ padding: '.8rem', borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem', backgroundColor: 'black',  height: '32rem' }}>
-     <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
+                 
+                    <br></br>
+                    <br></br>
+                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profile_img}`)} style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
+                    <br></br>
+                    <br></br>
                     
-                 <Card.Title style={{ fontWeight: 'bold' }} tag="h3">{el.Username}  {el.Verified_status == "Verified"? <FaCheckCircle color="aqua"></FaCheckCircle>: null }</Card.Title>
-                  <br></br>
+                  <Card.Title style={{ fontWeight: 'bold' }} tag="h3">{el.Username}  {el.Verified_status == "Verified"? <FaCheckCircle color="aqua"></FaCheckCircle>: null }</Card.Title>
                   <br></br>
                   <Card.Text>
+                
                  
                   {el.Bio}
-                   
+                    
                   </Card.Text>
                 </Col>
                 <Col md="8">
@@ -89,13 +80,13 @@ const ViewProfile = () => {
                     </Row>
 
                     <Row className="pt-1 text-center" style = {{height: '8rem'}}>
+                    <Col size="3" className="text-center">
+                      </Col>
                       <Col size="6" className="text-center">
                         <Card.Text className="mb-2 h1 text-center">{el.Posts_Count}</Card.Text>
                         <Card.Text className="h4 text-muted mb-0 text-center">Posts</Card.Text>
                       </Col>
-                      <Col size="6" className="text-center">
-                        <Card.Text className="mb-2 h1 text-center">{el.normalized_rating}</Card.Text>
-                        <Card.Text className="h4 text-muted mb-0 text-center">Rating</Card.Text>
+                      <Col size="3" className="text-center">
                       </Col>
                     </Row>
                     <Row className="pt-1 text-center" style = {{height: '4rem'}}>
@@ -110,7 +101,7 @@ const ViewProfile = () => {
             </Card>           
                                 </>
                             )
-                    
+                    }
                             
                         }
                         ) : ""
@@ -123,4 +114,4 @@ const ViewProfile = () => {
     )
 }
 
-export default ViewProfile;
+export default BrandProfile;

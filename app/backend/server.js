@@ -1,4 +1,5 @@
 // require("dotenv").config();
+// import AuthService from "../frontend/src/services/auth.service.js";
 const express = require("express");
 
 const port = 8081;//8004;
@@ -22,7 +23,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("uploads"))
 app.use(express.urlencoded({extended: true}))
-
+onbeforeunload = function () {
+    console.log("Do you really want to close?")
+    return "Do you really want to close?";
+    
+};
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -38,7 +43,8 @@ const db = mysql.createConnection({
         host: "localhost",
         user: "root",
         password: "",
-        database: "signup"
+        database: "signup",
+        charset: "utf8mb4",
     })
 
 
@@ -146,7 +152,6 @@ app.post('/login',[
 app.post('/form', upload_post.single("files"), (req, res) => {
     const sql_get_username = "SELECT * FROM login WHERE email = ?";
     const sql_insert = "INSERT INTO posts (username,productname,productdesc,category,img) VALUES (?)";
-    // console.log(req)
     const values = [   
         req.body.useremail,     
         req.body.productname,        
@@ -159,8 +164,6 @@ app.post('/form', upload_post.single("files"), (req, res) => {
         if(data.length === 0) {
             return res.json("Error");        
         } 
-        // console.log("printing data after sql fetc")
-        // console.log(data)
         return res.json(data);    
         })
     db.query(sql_insert, [values], (err, data) => {
@@ -176,10 +179,8 @@ app.get("/getdata",(req,res)=>{
             db.query("SELECT * FROM posts",(err,result)=>{
               
                 if(err){
-                    console.log("error select")
+                    console.log("error in /getdata")
                 }else{
-                    console.log("data get")
-                    // console.log(result)
                     res.status(201).json({status:201,data:result})
                 }
             })
@@ -219,8 +220,8 @@ app.get("/getinfluencerdata",(req, res) => {
 });
 
 //display influencer profile after clicking view profile button on explore influencers page
-    app.get("/showinfprofile",(req,res)=>{
-    const sql_get_user = "SELECT * FROM influencer_data  WHERE Username=?";
+app.get("/showinfprofile",(req,res)=>{
+    const sql_get_user = "SELECT * FROM influencer_data c, login n WHERE c.Username = n.Username and n.Username=?";
     var username_fetched = req.query.username;
     try {
       
@@ -246,7 +247,6 @@ app.get("/getexploredata",(req,res)=>{
             if(err){
                 console.log("error select influencer")
             }else{
-                console.log("data explore get")
                 res.status(201).json({status:201,data:result})
             }
         })
@@ -254,6 +254,38 @@ app.get("/getexploredata",(req,res)=>{
         res.status(422).json({status:422,error})
     }
 });
+
+//display brand profile page
+app.get("/getbranddata",(req,res)=>{
+    try {
+        db.query("SELECT * FROM Brands",(err,result)=>{
+            if(err){
+                console.log("error select influencer")
+            }else{
+                res.status(201).json({status:201,data:result})
+            }
+        })
+    } catch (error) {
+        res.status(422).json({status:422,error})
+    }
+});
+// store username and type of user in session storage
+app.get("/getinfo",(req,res)=>{
+    try {
+        db.query("SELECT * FROM login WHERE email =?",[req.query.useremail],(err,result)=>{
+          
+            if(err){
+                console.log("error in get info for storing info in session")
+            }else{
+                
+                res.status(201).json({status:201,data:result})
+            }
+        })
+    } catch (error) {
+        res.status(422).json({status:422,error})
+    }
+});
+
 
 app.listen(port, ()=> {    
     console.log("listening");
