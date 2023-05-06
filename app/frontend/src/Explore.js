@@ -65,8 +65,10 @@ const Explore = () => {
                                 <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
                                     {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
                                     <Card.Body className='text-center'>
-                                    <Card.Img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                    alt="Avatar" className="my-4" style={{ width: '100px' }} fluid />
+                                    {/* <Card.Img class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" */}
+                    {/* className="my-4" style={{ width: '100px' }} fluid /> */}
+                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
+
                                         <Card.Title>{el.Username}</Card.Title>
                                         <Card.Title>{el.normalized_rating}</Card.Title> 
                                         <Button variant="primary" onClick={handleInput}  name={el.Username}>View Profile</Button>

@@ -242,8 +242,10 @@ app.get("/showinfprofile",(req,res)=>{
 
 
 app.get("/getexploredata",(req,res)=>{
+    const get_profile_img = "select DISTINCT * from influencer_categories c,influencer_data n,login log WHERE c.Username=n.Username and n.Username = log.username order by normalized_rating desc";
+    //"select DISTINCT * from influencer_categories c,influencer_data n WHERE c.Username=n.Username order by normalized_rating desc"
     try {
-        db.query("select DISTINCT * from influencer_categories c,influencer_data n WHERE c.Username=n.Username order by normalized_rating desc",(err,result)=>{
+        db.query(get_profile_img,(err,result)=>{
             if(err){
                 console.log("error select influencer")
             }else{
