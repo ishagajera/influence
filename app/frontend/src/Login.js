@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Validation from './LoginValidation';
-
 function Login() {    
    
     const [values, setValues] = useState({        
@@ -25,6 +24,7 @@ function Login() {
     const handleSubmit =(event) => {        
         event.preventDefault();        
         const err = Validation(values); 
+        // const pass1 = "Vallabhi!@#456";
         setErrors(err);        
         if(err.email === "" && err.password === "") {            
             axios.post('http://localhost:8081/login', values)
@@ -35,7 +35,7 @@ function Login() {
                     setBackendError(res.data.errors);                
                 } 
                 else {                    
-                    setBackendError([]);                    
+                    // setBackendError([]);                    
                     if(res.data === "Success") {  
                         sessionStorage.setItem("user", JSON.stringify(values.email));
                         navigate('/home');                    
@@ -77,18 +77,7 @@ function Login() {
     onChange={handleInput} className='form-control rounded-0'/>                    
     {errors.password && <span className='text-danger'> {errors.password}</span>}                
     </div>
-    <div className="mb-3">
-          <div className="custom-control custom-checkbox">
-            <input name = 'rememberme'
-              type="checkbox"
-              className="custom-control-input"
-              id="customCheck1"
-            />
-            <label className="custom-control-label" htmlFor="customCheck1">
-              Remember me
-            </label>
-          </div>
-        </div>                
+                 
     <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>                
     {/* <p>You agree to our terms and policies</p>                 */}
     <Link to="/signup" className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>Create Account</Link>            

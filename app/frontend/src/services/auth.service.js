@@ -13,6 +13,10 @@ const getLoggedInUsername = () => {
   return JSON.parse(sessionStorage.getItem("loggedin_username"));
 };
 
+const getUserType = () => {
+  return JSON.parse(sessionStorage.getItem("typeofuser"));
+};
+
 const logout = () => {
   sessionStorage.clear();
   return axios.post(API_URL + "signout").then((response) => {
@@ -31,5 +35,6 @@ const AuthService = {
   logout,
   clear_data,
   getLoggedInUsername,
+  getUserType,
 }
 export default AuthService;
