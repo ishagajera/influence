@@ -47,8 +47,6 @@ const db = mysql.createConnection({
         charset: "utf8mb4",
     })
 
-
-
 // img storage confing - for profile photo
 const imgconfig = multer.diskStorage({
     destination:(req,file,callback)=>{

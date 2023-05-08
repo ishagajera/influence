@@ -4,6 +4,7 @@ import Validation from './FormValidation';
 
 import axios from 'axios';
 import AuthService from "./services/auth.service";
+import Navigation from './components/Navigation';
 function Form() {
     const currentUser = AuthService.getCurrentUser();
     // console.log("current user is:")
@@ -98,6 +99,7 @@ function Form() {
    
 
     return (
+        <><Navigation/>
         <div className = 'd-flex justify-content-center align-items-center bg-primary vh-100'>
             <div className = "bg-white p-3 rounded w-25">
             <h2>Post a Product</h2>
@@ -137,6 +139,7 @@ function Form() {
             </div>
            
         </div>
+        </>
     )
 }
 

@@ -8,6 +8,7 @@ import { SocialIcon } from 'react-social-icons';
 import axios from 'axios';
 import AuthService from "./services/auth.service";
 import { FaCheckCircle } from 'react-icons/fa';
+import Navigation from './components/Navigation';
 const ViewProfile = () => {
   const displayUser = AuthService.getDisplayUser();
     const [fetched_data, setData] = useState([]);
@@ -45,7 +46,7 @@ const ViewProfile = () => {
     }, [])
 
     return (
-        
+        <><Navigation/>
     <section className="vh-100" style={{ backgroundColor: '#f4f5f7' }}>
       <Container className="py-5 h-100">
         <Row className="justify-content-center align-items-center h-100">
@@ -120,6 +121,7 @@ const ViewProfile = () => {
         </Row>
       </Container>
     </section>
+    </>
     )
 }
 

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Validation from './LoginValidation';
+import Navigation from './components/Navigation';
 function Login() {    
    
     const [values, setValues] = useState({        
@@ -55,7 +56,9 @@ function Login() {
     sessionStorage.setItem('user', JSON.stringify(values.email));
     }, [items]);
 
-  return (    
+  return (   
+    <> 
+    <Navigation/>
   <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>        
   <div className='bg-white p-3 rounded w-25'>            
   <h2>Sign-In</h2>            
@@ -84,5 +87,6 @@ function Login() {
     </form>        
     </div>    
     </div>  
+    </>
     )}
 export default Login

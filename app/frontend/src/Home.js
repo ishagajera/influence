@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import AuthService from './services/auth.service';
+import Navigation from './components/Navigation';
 const Home = () => {
     const [data, setData] = useState([]);
     const [show, setShow] = useState(false);
@@ -52,6 +53,7 @@ const Home = () => {
 
     return (
         <>
+        <Navigation/>
             {
                 show ? <Alert variant="danger" onClose={() => setShow(false)} dismissible>
                     User Delete

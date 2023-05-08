@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import Validation from './SignupValidation';
 import axios from 'axios';
-
+import Navigation from './components/Navigation';
 
 function Signup() {
     const [values, setValues] = useState ({
@@ -62,6 +62,7 @@ function Signup() {
         }
     }
     return (
+        <><Navigation/>
         <div className = 'd-flex justify-content-center align-items-center bg-primary vh-100'>
           
             <div className = "bg-white p-3 rounded w-25">
@@ -109,6 +110,7 @@ function Signup() {
                 </form>
             </div>
         </div>
+        </>
     )
 }
 

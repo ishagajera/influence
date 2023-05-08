@@ -16,12 +16,11 @@ import InfluencerProfile from './influencerProfile';
 import Explore from './Explore'
 import ViewProfile from './ViewProfile';
 import BrandProfile from './BrandProfile';
-
+import Navigation from './components/Navigation';
 
 function App() {
  
   function handleLogout() {
-    // sessionStorage.clear();
     AuthService.clear_data();
   }
  
@@ -31,21 +30,16 @@ useEffect(() => {
 },[])  
   return (
     <>
-    <Navbar bg ='dark' variant = "dark" >
+    {/* <Navbar bg ='dark' variant = "dark" >
       <Container>
         <Navbar.Brand>InFluence</Navbar.Brand>
-          {/* <Nav className='me-auto'>
-            <Nav.Link href = "/">LandingPage</Nav.Link>
-          </Nav> */}
           {JSON.parse(sessionStorage.getItem("user")) != null ? (
             <>
        <Nav>
       <Nav.Link href="/login" onClick={handleLogout}>Logout</Nav.Link>
       <Nav.Link href="/home">Home</Nav.Link>
       <Nav.Link href={JSON.parse(sessionStorage.getItem("typeofuser"))}>My Profile</Nav.Link>
-      {/* <Nav.Link href="/Influencer">Influencer</Nav.Link> */}
-      <Nav.Link href="/exploreinf">Explore Influencers</Nav.Link>
-      {/* <Nav.Link href="/Brand">Brand Profile</Nav.Link> */}</Nav>
+      <Nav.Link href="/exploreinf">Explore Influencers</Nav.Link></Nav>
       </>
  
   ) : (
@@ -59,7 +53,8 @@ useEffect(() => {
   )}
   
       </Container>
-   </Navbar>
+   </Navbar> */}
+   {/* <Navigation></Navigation> */}
 <BrowserRouter>
     <Routes>
     <Route path="/" element = {<LandingPage />}></Route>

@@ -9,7 +9,7 @@ import { FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {FaCheckCircle} from 'react-icons/fa';
 import AuthService from './services/auth.service';
-
+import Navigation from './components/Navigation';
 const BrandProfile = () => {
     const [data, setData] = useState([]);
     const curr_user = AuthService.getLoggedInUsername();
@@ -33,7 +33,7 @@ const BrandProfile = () => {
     }, [])
 
     return (
-        
+        <><Navigation/>
     <section className="vh-100" style={{ backgroundColor: '#f4f5f7' }}>
       <Container className="py-5 h-100">
         <Row className="justify-content-center align-items-center h-100">
@@ -111,6 +111,7 @@ const BrandProfile = () => {
         </Row>
       </Container>
     </section>
+    </>
     )
 }
 
