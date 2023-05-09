@@ -36,7 +36,7 @@ const BrandProfile = () => {
     return (
         <><Header/>
     
-    <section className="vh-100" style={{ backgroundColor: 'black', borderColor: 'black' }}>
+    <section className="vh-100" style={{ backgroundColor: 'black', borderColor: 'black', marginTop:"40px" }}>
       <Container className="py-5 h-100">
         <Row className="justify-content-center align-items-center h-100">
           <Col lg="8" className="mb-4 mb-lg-0">

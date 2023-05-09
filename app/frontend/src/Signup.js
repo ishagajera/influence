@@ -89,7 +89,7 @@ function Signup() {
 
       <Container>
         <Row className="align-items-center">
-          <Col size={12} md={6}>
+          <Col size={12} md={6} style = {{marginTop:"70px"}}>
             <TrackVisibility>
               {({ isVisible }) =>
                 <img className={isVisible ? "animate__animated animate__zoomIn" : ""} src={contactImg} alt="Contact Us"/>

@@ -62,7 +62,7 @@ function Login() {
 
   return (   
     <> 
-    <Header/>
+    <Header/> 
      <section className="contact" id="connect">
       <Container>
         {                
@@ -71,7 +71,7 @@ function Login() {
             )) : <span></span>            
         } 
         <Row className="align-items-center">
-          <Col size={12} md={6}>
+          <Col size={12} md={6} style = {{marginTop:"50px"}}>
             <TrackVisibility>
               {({ isVisible }) =>
                 <img className={isVisible ? "animate__animated animate__zoomIn" : ""} src={contactImg} alt="Contact Us"/>
@@ -82,6 +82,7 @@ function Login() {
             <TrackVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
+                  <br></br>
                 <h2>Login</h2>
                 <form onSubmit={handleSubmit}>
                   <Row>

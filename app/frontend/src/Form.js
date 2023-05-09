@@ -103,7 +103,7 @@ function Form() {
 
     return (
         <><Header/>
-        <section className="contact" id="connect">
+        <section className="contact" id="connect"> 
       <Container>
         <Row className="align-items-center">
           <Col size={12} md={6}>
@@ -117,8 +117,6 @@ function Form() {
             <TrackVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                    <br></br>
-                   
                 <h2>Add Product Details</h2>
                 <form onSubmit={handleSubmit}>
                   <Row>

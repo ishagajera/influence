@@ -50,7 +50,7 @@ const ViewProfile = () => {
         <><Header/>
     
     
-    <section className="vh-100" style={{ backgroundColor: 'black', borderColor: 'black' }}>
+    <section className="vh-100" style={{ backgroundColor: 'black', borderColor: 'black', marginTop:"40px" }}>
     <br></br>
       <Container className="py-5 h-100">
         <Row className="justify-content-center align-items-center h-100">
