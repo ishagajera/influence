@@ -23,7 +23,7 @@ const Explore = () => {
     };
     const [data, setData] = useState([]);
     const [items, setItems] = useState([]);
-   
+    var user = JSON.parse(sessionStorage.getItem("user"));
     const getUserData = async () => {
         const res = await axios.get("http://localhost:8081/getexploredata", {
             headers: {
@@ -47,6 +47,7 @@ const Explore = () => {
     return (
         <>
         <Header/>
+        { user ? (
         <section className="project" id="project">
       <Container>
         <Row>
@@ -738,7 +739,13 @@ const Explore = () => {
         </Row>
       </Container>
       <img className="background-image-right" src={colorSharp2}></img>
-    </section>
+    </section>):(
+     <div className="animate__animated animate__fadeIn">
+      <br/><br/><br/><br/>
+     <h2 style = {{textAlign:'center' }}>Please Log In</h2>     
+    </div>
+
+    )}
     </>
     )
 }

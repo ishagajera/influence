@@ -16,8 +16,17 @@ const Home = () => {
     const [items, setItems] = useState([]);
     const [values, setValues] = useState ({brandname:"",});
     const navigate = useNavigate();
+    const config = {
+      headers:{
+      "Content-Type":"multipart/form-data",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH"
 
+      }
+  }
+ 
     var user_type = JSON.parse(sessionStorage.getItem("typeofuser"));
+    var user = JSON.parse(sessionStorage.getItem("user"));
     const handleInput = (event) => {
       event.preventDefault(); 
       values.brandname = event.target.name;
@@ -57,14 +66,12 @@ const Home = () => {
     useEffect(() => {
             getUserData();
             getInfoForSession();
-               
-        
     }, [items])
-
+   
     return (
         <>
         <Header/>
-        <section className="project" id="project">
+        { user ? ( <section className="project" id="project">
         <Container>
         <Row>
           <Col size={12}>
@@ -718,7 +725,14 @@ const Home = () => {
         </Row>
       </Container>
       <img className="background-image-right" src={colorSharp2}></img>
-    </section>
+    </section>):(
+     <div className="animate__animated animate__fadeIn">
+      <br/><br/><br/><br/>
+     <h2 style = {{textAlign:'center' }}>Please Log In</h2>     
+    </div>
+
+    )}
+       
         </>
     )
 }

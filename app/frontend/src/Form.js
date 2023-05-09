@@ -34,6 +34,7 @@ function Form() {
     const [file, setFile] = useState();
     const [backendError, setBackendError] = useState([])
     const [uploadStatus, setUploadStatus] = useState('');
+    var user = JSON.parse(sessionStorage.getItem("user"));
     const handleInput = (event) => {
 
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
@@ -65,10 +66,6 @@ function Form() {
         // adding user's email to form data - so that on server side can fetch username and then add to
         // db using the user name
         formData.append('useremail',useremail)
-        // console.log("printing form data")
-        // console.log(formData)
-
-      
         if(err.productname === "" && err.productdesc === "" && err.category === "" && err.image === "") {
             const config = {
                 headers:{
@@ -103,6 +100,7 @@ function Form() {
 
     return (
         <><Header/>
+        { user ? (
         <section className="contact" id="connect"> 
       <Container>
         <Row className="align-items-center">
@@ -167,7 +165,13 @@ function Form() {
           </Col>
         </Row>
       </Container>
-    </section>
+    </section>):(
+     <div className="animate__animated animate__fadeIn">
+      <br/><br/><br/><br/>
+     <h2 style = {{textAlign:'center' }}>Please Log In</h2>     
+    </div>
+
+    )}
         </>
     )
 }

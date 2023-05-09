@@ -13,7 +13,7 @@ import Header from './components/Header';
 const ViewProfile = () => {
   const displayUser = AuthService.getDisplayUser();
     const [fetched_data, setData] = useState([]);
-
+    var user = JSON.parse(sessionStorage.getItem("user"));
     const getInfluencerData = async () => {
         axios.get("http://localhost:8081/showinfprofile",
         {
@@ -49,7 +49,7 @@ const ViewProfile = () => {
     return (
         <><Header/>
     
-    
+    { user ? ( 
     <section className="vh-100" style={{ backgroundColor: 'black', borderColor: 'black', marginTop:"40px" }}>
     <br></br>
       <Container className="py-5 h-100">
@@ -123,7 +123,13 @@ const ViewProfile = () => {
           </Col>
         </Row>
       </Container>
-    </section>
+    </section>):(
+     <div className="animate__animated animate__fadeIn">
+      <br/><br/><br/><br/>
+     <h2 style = {{textAlign:'center' }}>Please Log In</h2>     
+    </div>
+
+    )}
     </>
     )
 }

@@ -13,6 +13,8 @@ import Header from './components/Header';
 
 const BrandProfile = () => {
     const [data, setData] = useState([]);
+    var user = JSON.parse(sessionStorage.getItem("user"));
+
     const curr_user = AuthService.getLoggedInUsername();
     const getBrandData = async () => {
         const res = await axios.get("http://localhost:8081/getbranddata", {
@@ -35,7 +37,7 @@ const BrandProfile = () => {
 
     return (
         <><Header/>
-    
+     { user ? (
     <section className="vh-100" style={{ backgroundColor: 'black', borderColor: 'black', marginTop:"40px" }}>
       <Container className="py-5 h-100">
         <Row className="justify-content-center align-items-center h-100">
@@ -98,7 +100,13 @@ const BrandProfile = () => {
           </Col>
         </Row>
       </Container>
-    </section>
+    </section>):(
+     <div className="animate__animated animate__fadeIn">
+      <br/><br/><br/><br/>
+     <h2 style = {{textAlign:'center' }}>Please Log In</h2>     
+    </div>
+
+    )}
     </>
     )
 }

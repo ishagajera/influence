@@ -138,6 +138,9 @@ app.post('/login',[
                     return res.json("Error");            
                 }            
             if(data.length > 0) {
+                // const sessionToken = 'your-session-token';
+                // req.session.sessionToken = sessionToken;
+                // return res.status(201).json({status:201,data:"Success"})
                 return res.json("Success");            
             } 
             else {                
@@ -312,9 +315,19 @@ app.get("/getinfo",(req,res)=>{
     }
 });
 
+// app.get('/check-auth', (req, res) => {
+//     const isAuthenticated = req.session.sessionToken != null;
+//     res.send({ isAuthenticated });
+//   });
+
+//   app.post('/logout', (req, res) => {
+//     req.session.sessionToken = null; // clear session token
+//     res.sendStatus(200); // send success response
+//   });  
 
 app.listen(port, ()=> {    
     console.log("listening");
 })
+
 
 module.exports = app;
