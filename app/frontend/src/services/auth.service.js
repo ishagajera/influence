@@ -9,6 +9,10 @@ const getDisplayUser = () => {
   return JSON.parse(sessionStorage.getItem("display_user"));
 };
 
+const getDisplayBrand = () => {
+  return JSON.parse(sessionStorage.getItem("display_brand"));
+};
+
 const getLoggedInUsername = () => {
   return JSON.parse(sessionStorage.getItem("loggedin_username"));
 };
@@ -36,5 +40,6 @@ const AuthService = {
   clear_data,
   getLoggedInUsername,
   getUserType,
+  getDisplayBrand,
 }
 export default AuthService;

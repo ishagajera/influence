@@ -222,6 +222,26 @@ app.get("/getinfluencerdata",(req, res) => {
         }
     
 });
+//display profile of brand after clicking view profile button from view products page:
+//showbrandprofile
+app.get("/showbrandprofile",(req,res)=>{
+    const sql_get_user = "SELECT * FROM brands b, login n WHERE b.Username = n.username and n.username=?";
+    var username_fetched = req.query.username;
+    try {
+      
+            db.query(sql_get_user,[username_fetched],(err,result)=>{
+             
+                if(err){
+                    console.log("error display profile of influencer after clicking")
+                }else{
+                   
+                    res.status(201).json({status:201,data:result})
+                }
+            })        
+    } catch (error) {
+        res.status(422).json({status:422,error})
+    }
+});
 
 //display influencer profile after clicking view profile button on explore influencers page
 app.get("/showinfprofile",(req,res)=>{

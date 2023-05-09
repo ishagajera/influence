@@ -51,7 +51,7 @@ export const Header = () => {
             {JSON.parse(sessionStorage.getItem("user")) ? (
                          <> 
                 <Nav>
-                <Nav.Link href="home" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
+                <Nav.Link href="home" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Market</Nav.Link>
                 <Nav.Link href={JSON.parse(sessionStorage.getItem("typeofuser"))} className={activeLink === get_user ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink(get_user)}>My Profile</Nav.Link>
                 <Nav.Link href="login" onClick={handleLogout} className={activeLink === 'login' ? 'active navbar-link' : 'navbar-link'}>Logout</Nav.Link>
                 <Nav.Link href="exploreinf" className={activeLink === 'exploreinf' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('exploreinf')}>Explore Influencers</Nav.Link>

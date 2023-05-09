@@ -17,7 +17,7 @@ import Explore from './Explore'
 import ViewProfile from './ViewProfile';
 import BrandProfile from './BrandProfile';
 import Navigation from './components/Navigation';
-
+import ViewBrand from './ViewBrand';
 function App() {
  
   function handleLogout() {
@@ -42,6 +42,7 @@ useEffect(() => {
       <Route path="/viewProfile" element = {<ViewProfile />}></Route>
       <Route path="/exploreinf" element = {<Explore />}></Route>
       <Route path="/Brand" element = {<BrandProfile />}></Route>
+      <Route path="/viewbrandprofile" element = {<ViewBrand />}></Route>
     </Routes>
     </BrowserRouter>
     

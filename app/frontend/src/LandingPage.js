@@ -7,6 +7,8 @@ import { ArrowRightCircle } from 'react-bootstrap-icons';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import Header from './components/Header';
+import Signup from './Signup';
+import { NavLink } from "react-router-dom"
 function LandingPage() {   
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -15,6 +17,7 @@ function LandingPage() {
   const [index, setIndex] = useState(1);
   const toRotate = [ "For Your Business"];
   const period = 5000; 
+  
   useEffect(() => {
     let ticker = setInterval(() => {
       tick();
@@ -57,7 +60,7 @@ function LandingPage() {
                 <h1>{`Find the Right Influencer `} <span className="txt-rotate" dataPeriod="5000" data-rotate='[ For Your Business" ]'><span className="wrap">{text}</span></span></h1>
                   <p>Our web application, acts as an one-stop portal for influencers and brands to connect with each other. With our advanced algorithm, custom metric, and marketplace for
 promotions, we're poised to revolutionize the way brands and influencers collaborate.</p>
-                  <button onClick={() => console.log('connect')}>Get Started <ArrowRightCircle size={25} /></button>
+                  <button  ><NavLink to="/signup" className="text-decoration-none text-light">Get Started </NavLink><ArrowRightCircle size={25} /></button>
               </div>}
             </TrackVisibility>
           </Col>

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState  } from 'react'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-
+import {useNavigate} from "react-router-dom"
 import { SocialIcon } from 'react-social-icons';
 import axios from 'axios';
 import AuthService from "./services/auth.service";
@@ -13,21 +13,35 @@ import Header from './components/Header';
 
 const BrandProfile = () => {
     const [data, setData] = useState([]);
-    const curr_user = AuthService.getLoggedInUsername();
+    const displayUser = AuthService.getDisplayBrand();
+    const navigate = useNavigate();
+    console.log("brand name is:",displayUser);
     const getBrandData = async () => {
-        const res = await axios.get("http://localhost:8081/getbranddata", {
-            headers: {
-                "Content-Type": "application/json",
-                "charset":"utf-8"
-            }
-        });
-        
-        if (res.data.status === 201) {
-            setData(res.data.data)
-        } else {
-            console.log("error in getting brand data")
+      axios.get("http://localhost:8081/showbrandprofile",
+      {
+        headers:{
+          "Content-Type":"application/json",
+          "charset":"utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH"
+
+        } ,
+        params :{
+          username : displayUser,
         }
-    }
+  }
+  )
+      .then(res => {
+        if(res.data.status === 201) {                    
+          setData(res.data.data)  
+        } 
+      
+       else {
+        console.log("error")
+       }
+    })
+    .catch(err => console.log(err));  
+  }
 
     useEffect(() => {
         getBrandData()
@@ -43,7 +57,7 @@ const BrandProfile = () => {
 
           {        
                         data.length > 0 ? data.map((el, i) => {
-                            if (el.Username === curr_user ) {
+                           
                             return (
                                 <>
             <Card className="mb-3" style={{ borderRadius: '.5rem',  height: '32rem' , background: 'linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)'}}>
@@ -91,7 +105,7 @@ const BrandProfile = () => {
                             )
                     }
                             
-                        }
+                        
                         ) : ""
 
             }

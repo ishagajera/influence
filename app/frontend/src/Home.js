@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react'
+import {useNavigate} from "react-router-dom"
 import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom"
-import {useNavigate} from "react-router-dom"
 import axios from 'axios';
-import Alert from 'react-bootstrap/Alert';
-
-import Tabs from 'react-bootstrap/Tabs';
-
 import AuthService from './services/auth.service';
-import Navigation from './components/Navigation';
 import Header from './components/Header';
 import { Container, Row, Col, Tab, Nav, Card, CardImg  } from "react-bootstrap";
-
 import colorSharp2 from "./assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+
 const Home = () => {
     const [data, setData] = useState([]);
     const [show, setShow] = useState(false);
+    const [items, setItems] = useState([]);
+    const [values, setValues] = useState ({brandname:"",});
+    const navigate = useNavigate();
+
+    var user_type = JSON.parse(sessionStorage.getItem("typeofuser"));
+    const handleInput = (event) => {
+      event.preventDefault(); 
+      values.brandname = event.target.name;
+      console.log(values.brandname)
+      sessionStorage.setItem("display_brand", JSON.stringify(values.brandname));  
+      navigate('/viewbrandprofile');   
+
+  };
     const getInfoForSession = async () => {
         axios.get("http://localhost:8081/getinfo",{
             params:{
@@ -28,6 +36,7 @@ const Home = () => {
             if (res.data.status === 201) {
                 sessionStorage.setItem("loggedin_username", JSON.stringify(res.data.data[0].username));
                 sessionStorage.setItem("typeofuser", JSON.stringify(res.data.data[0].typeofuser));
+                
             } else {
                 console.log("error in setting session data")
             }
@@ -46,12 +55,11 @@ const Home = () => {
         .catch(err => console.log(err));
     }
     useEffect(() => {
-       
             getUserData();
             getInfoForSession();
-       
+               
         
-    }, [])
+    }, [items])
 
     return (
         <>
@@ -65,7 +73,9 @@ const Home = () => {
               <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                 <h2>Explore Products
                 <div className='text-end'>
-                    <Button variant="primary"><NavLink to="/form" className="text-decoration-none text-light"> Add Product</NavLink></Button>
+                  {user_type === "Brand" ? (
+                    <Button  style ={{  background:"linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)",borderColor:"black"}} variant="primary"><NavLink to="/form" className="text-decoration-none text-light"> Add Product</NavLink></Button>
+                  ):(<></>)} 
                 </div></h2>
                 <p>For influencers, our platform allows you to view products posted by brands that require promotion. You can easily find products that align with your interests and promote them on your Instagram page. As a brand, you can explore the products of other brands and gain insight into what other companies are offering.</p>
                 <Tab.Container id="projects-tabs" defaultActiveKey="first">
@@ -128,14 +138,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -182,14 +195,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -240,14 +256,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -297,14 +316,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -354,14 +376,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -411,14 +436,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -468,14 +496,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -525,14 +556,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -582,14 +616,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -639,14 +676,17 @@ const Home = () => {
                       fluid />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>Name:{el.productname}</Card.Title>
+                    <Card.Title style={{textAlign: "center", color: "purple", width: "278px" , marginLeft: "0px"}}>{el.productname}</Card.Title>
                     <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
                       style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
                         <Row>
                         <div className="col-12">
-                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">Description: {el.productdesc}</p>
+                        <p style={{color: "purple", width: "278px" , marginLeft: "0px",padding:"0px"}} className="mb-0">{el.productdesc}</p>
                       </div>
                         </Row>
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
                     </div>
                   </div>
                 </div>
