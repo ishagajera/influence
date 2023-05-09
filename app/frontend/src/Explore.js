@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
-import { NavLink } from "react-router-dom"
-import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-import moment from "moment"
-import Alert from 'react-bootstrap/Alert';
-import Container from 'react-bootstrap/Container';
+import { Container, Row, Col, Tab, Nav, Card, CardImg  } from "react-bootstrap";
 import {useNavigate} from "react-router-dom"
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 import Navigation from './components/Navigation';
+import Header from "./components/Header";
+import colorSharp2 from "./assets/img/color-sharp2.png";
+import 'animate.css';
+import TrackVisibility from 'react-on-screen';
+
+
 const Explore = () => {    
     const navigate = useNavigate();
     const [values, setValues] = useState ({username:"",});
@@ -47,358 +46,699 @@ const Explore = () => {
 
     return (
         <>
-        <Navigation/>
-        <div className="container mt-2">
-            <h1 className='text-center mt-2'>Explore Influencers</h1>
-
-            {/* tab */}
-            <Tabs defaultActiveKey="first">
-                <Tab eventKey="first" title="All">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+        <Header/>
+        <section className="project" id="project">
+      <Container>
+        <Row>
+          <Col size={12}>
+            <TrackVisibility>
+              {({ isVisible }) =>
+              <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
+                <h2>Explore Influencers</h2>
+                <p>Find influencers based on your product requirements. Influencers are categorized into 9 different catgeories and they are ordered by a custom metric that guages the influence of that person on Instagram. </p>
+                <Tab.Container id="projects-tabs" defaultActiveKey="first">
+                  <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
+                    <Nav.Item>
+                      <Nav.Link eventKey="first">All</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="second">Beauty</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="third">Family</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="fourth">Fashion</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="fifth">Fitness</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="sixth">Food</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="seventh">Pet</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="eigth">Travel</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="ninth">Interior</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="tenth">Other</Nav.Link>
+                    </Nav.Item>
+                  </Nav>
+                  <Tab.Content id="slideInUp" className={isVisible ? "animate__animated animate__slideInUp" : ""}>
+                    <Tab.Pane eventKey="first">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
+                      
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    {/* <Card.Img class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" */}
-                    {/* className="my-4" style={{ width: '100px' }} fluid /> */}
-                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title> 
-                                        <Button variant="primary" onClick={handleInput}  name={el.Username}>View Profile</Button>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple", width:"100px"}} className="mb-0">Rating<strong><br></br>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button  onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
+                        )}
+
                     ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
             </div>
-
-                </Tab>
-                <Tab eventKey="second" title="Beauty">
-
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="second">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "beauty" || el.Category2 === "beauty" || el.Category3 === "beauty") {
+                        if (el.Category1 === "beauty") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-                <Tab eventKey="third" title="Family">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+            </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="third">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "family" || el.Category2 === "family" || el.Category3 === "family") {
+                        if (el.Category1 === "family") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-                <Tab eventKey="fourth" title="Fashion">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+            </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="fourth">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "fashion" || el.Category2 === "fashion" || el.Category3 === "fashion") {
+                        if (el.Category1 === "fashion") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-                <Tab eventKey="fifth" title="Fitness">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+            </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="fifth">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "fitness" || el.Category2 === "fitness" || el.Category3 === "fitness") {
+                        if (el.Category1 === "fitness") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-                <Tab eventKey="sixth" title="Food">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+            </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="sixth">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "food" || el.Category2 === "food" || el.Category3 === "food") {
+                        if (el.Category1 === "food") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-                <Tab eventKey="seventh" title="Pet">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+            </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="seventh">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "pet" || el.Category2 === "pet" || el.Category3 === "pet") {
+                        if (el.Category1 === "pet") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-                <Tab eventKey="eight" title="Travel">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+            </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="eigth">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "travel" || el.Category2 === "travel" || el.Category3 === "travel") {
+                        if (el.Category1 === "travel") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-                <Tab eventKey="ninth" title="Interior">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+            </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="ninth">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "interior" || el.Category2 === "interior" || el.Category3 === "interior") {
+                        if (el.Category1 === "interior") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-                <Tab eventKey="tenth" title="Other">
-                <div className='d-flex justify-content-between align-iteams-center mt-5'>
+            </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="tenth">
+                    <div className='d-flex justify-content-between align-iteams-center mt-5'>
                 <Container >
                 <Row>
-                <Col lg={4}  className='mb-0 mb-lg-0'></Col>
+                <Col lg={3}  className='mb-0 mb-lg-0'></Col>
                 <Col lg={6}  className='mb-0 mb-lg-0'>
                 {
                     data.length > 0 ? data.map((el, i) => {
-                        if (el.Category1 === "other" || el.Category2 === "other" || el.Category3 === "other") {
+                        if (el.Category1 === "other") {
                         return (
                             <>
-                                <Card style={{ width: '22rem', height: "18rem" }} className="mb-6">
-                                    {/* <Card.Img variant="top" src={`/uploads/${el.product_img}`} style={{ width: '200px', height: '200px', textAlign: "center", margin: "auto" }} className="mt-2" /> */}
-                                    <Card.Body className='text-center'>
-                                    <Card.Img variant="top" class="rounded-circle shadow-4-strong border border-white" src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)} alt="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style={{ width: '160px', height: '160px', textAlign: "center", margin: "auto" }} className="mt-2" />
-                                        <Card.Title>{el.Username}</Card.Title>
-                                        <Card.Title>{el.normalized_rating}</Card.Title>
-                                        
-                                    </Card.Body>
-                                </Card>
-                                <Col lg={3} className='mb-0 mb-lg-0'></Col>
-                                <br></br>
+        <div className="mb-5" >
+      <Container>
+        <Row >
+          <Col md="12" lg="12" xl="12" >
+            <Card style={{ borderRadius: '15px' }}>
+              <Card.Body className="p-4">
+                <div className="d-flex text-black">
+                  <div className="flex-shrink-0">
+                    <CardImg
+                      style={{ width: '180px', borderRadius: '10px' }}
+                      src={require(`C:/Isha/Winter '23/influence/app/backend/uploads/${el.profileimg}`)}
+                      alt='Generic placeholder image'
+                      fluid />
+                  </div>
+                  <div className="flex-grow-1 ms-3">
+                    <Card.Title style={{textAlign: "center"}}>{el.Username}</Card.Title>
+                    <div className=" flex-grow-1 justify-content-center rounded-3  mb-2"
+                      style={{ backgroundColor: '#efefef', width: "278px" , marginLeft: "0px", padding: "0px"}}>
+                        <Row>
+                        <div className="col-5">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Rating<strong><br/>{el.normalized_rating}</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <p style={{color: "purple",width:"100px"}} className="mb-0">Catgeory<strong><br/>{el.Category1}</strong></p>
+                      </div>
+                        </Row>
+                      
+                    </div>
+                    <div className="d-flex pt-1">
+                      <Button onClick={handleInput}  name={el.Username} style={{width: "278px" , marginLeft: "0px", background: "linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%)", borderColor: "white" }}>View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
                             </>
-                        )
-                                        }
-                    }) : ""
+                        )}
+                            }
+                    ) : ""
                 }
+                        
+                                       
                 </Col>
                 <Col lg={2}  className='mb-0 mb-lg-0'>
                 </Col>
                 </Row>
                 </Container>
-                </div>
-                </Tab>
-            </Tabs>  
-        </div>
+            </div>
+                    </Tab.Pane>
+                  </Tab.Content>
+                </Tab.Container>
+              </div>}
+            </TrackVisibility>
+          </Col>
+        </Row>
+      </Container>
+      <img className="background-image-right" src={colorSharp2}></img>
+    </section>
     </>
     )
 }

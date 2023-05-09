@@ -30,31 +30,7 @@ useEffect(() => {
 },[])  
   return (
     <>
-    {/* <Navbar bg ='dark' variant = "dark" >
-      <Container>
-        <Navbar.Brand>InFluence</Navbar.Brand>
-          {JSON.parse(sessionStorage.getItem("user")) != null ? (
-            <>
-       <Nav>
-      <Nav.Link href="/login" onClick={handleLogout}>Logout</Nav.Link>
-      <Nav.Link href="/home">Home</Nav.Link>
-      <Nav.Link href={JSON.parse(sessionStorage.getItem("typeofuser"))}>My Profile</Nav.Link>
-      <Nav.Link href="/exploreinf">Explore Influencers</Nav.Link></Nav>
-      </>
- 
-  ) : (
-    <>
-    <Nav>
-    <Nav.Link href="/signup">Sign up</Nav.Link></Nav>
-    <Nav>
-    <Nav.Link href="/login">Login</Nav.Link></Nav>
-      
-    </>
-  )}
-  
-      </Container>
-   </Navbar> */}
-   {/* <Navigation></Navigation> */}
+    
 <BrowserRouter>
     <Routes>
     <Route path="/" element = {<LandingPage />}></Route>

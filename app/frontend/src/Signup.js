@@ -1,9 +1,14 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import Validation from './SignupValidation';
 import axios from 'axios';
-import Navigation from './components/Navigation';
 
+import Header from './components/Header';
+import { Container, Row, Col } from "react-bootstrap";
+import contactImg from "./assets/img/contact-img.svg";
+import 'animate.css';
+import TrackVisibility from 'react-on-screen';
+import { Navbar, Nav } from "react-bootstrap";
 function Signup() {
     const [values, setValues] = useState ({
         name: '',
@@ -15,6 +20,8 @@ function Signup() {
     const [file, setFile] = useState();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+    const [activeLink, setActiveLink] = useState('home');
+    const [scrolled, setScrolled] = useState(false);
     const handleInput = (event) => {
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
     };
@@ -49,7 +56,7 @@ function Signup() {
                 // console.log(res)
                 if(res.data === "Username Already Registered"){
                     setErrors({name :res.data});
-                    // navigate('/signup');
+                    navigate('/signup');
                 }
                 else if(res.data === "Email Already In Use"){
                     setErrors({email :res.data});
@@ -61,55 +68,82 @@ function Signup() {
             .catch(err => console.log(err));
         }
     }
+    useEffect(() => {
+        const onScroll = () => {
+          if (window.scrollY > 50) {
+            setScrolled(true);
+          } else {
+            setScrolled(false);
+          }
+        }
+    
+        window.addEventListener("scroll", onScroll);
+    
+        return () => window.removeEventListener("scroll", onScroll);
+      }, [])
     return (
-        <><Navigation/>
-        <div className = 'd-flex justify-content-center align-items-center bg-primary vh-100'>
-          
-            <div className = "bg-white p-3 rounded w-25">
+        <>
+        <Header/>
+      
+        <section className="contact" id="connect">
+
+      <Container>
+        <Row className="align-items-center">
+          <Col size={12} md={6}>
+            <TrackVisibility>
+              {({ isVisible }) =>
+                <img className={isVisible ? "animate__animated animate__zoomIn" : ""} src={contactImg} alt="Contact Us"/>
+              }
+            </TrackVisibility>
+          </Col>
+          <Col size={12} md={6}>
+            <TrackVisibility>
+              {({ isVisible }) =>
+                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                 <h2>Sign Up</h2>
-                <form action = "" onSubmit={handleSubmit}>
-                <div className = 'mb-3'>
-                        <label htmlfor="name"><strong> Username</strong> </label>
-                        <input type="text" placeholder = "Enter Name" name = "name" onChange={handleInput} className='form-control rounded-0'/>
-                        {errors.name && <span className="text-danger">{errors.name}</span>}
-                    </div>
-                    <div className = 'mb-3'>
-                        <label htmlfor="email"><strong> Email</strong> </label>
-                        <input type="email" placeholder = "Enter Email" name ="email" onChange={handleInput} className='form-control rounded-0'/>
-                        {errors.email && <span className="text-danger">{errors.email}</span>}
-                    </div>
-                    <div className = 'mb-3'>
-                        <label htmlfor="password"><strong>Password</strong></label>
-                        <input type="password" placeholder="Enter Password" 
-                        name ="password" onChange={handleInput} className='form-control rounded-0'/>
-                        {errors.password && <span className="text-danger">{errors.password}</span>}
-                    </div>
-                    <div className = 'mb-3'>
-                        <label htmlfor="typeofuser"><strong>Type of user</strong></label>
-                        <div className="radio">
-                          <label><input name = "typeofuser" type="radio" value="Influencer"  onChange={handleInput} />
-                            Influencer
-                          </label>
-                        </div>
-                        <div className="radio">
-                          <label><input name = "typeofuser" type="radio" value="Brand" onChange={handleInput} />
-                            Brand
-                          </label>
-                        </div>
-                        {errors.typeofuser && <span className="text-danger">{errors.typeofuser}</span>}
-                    </div>
-                    <div className = 'mb-3'>
+                <form onSubmit={handleSubmit}>
+                  <Row>
+                    <Col size={12} sm={6} className="px-1">
+                      <input type="text" name = "name" onChange={handleInput} placeholder="Username" />
+                      {errors.name && <span className="text-danger">{errors.name}</span>}
+                    </Col>
+                    
+                    <Col size={12} sm={6} className="px-1">
+                      <input type="email" name ="email" onChange={handleInput} placeholder="Email Address" />
+                      {errors.email && <span className="text-danger">{errors.email}</span>}
+                    </Col>
+                    </Row>
+                    <Row>
+                    <Col size={12} sm={6} className="px-1">
+                      <input type="password" name ="password" onChange={handleInput} placeholder="Password" />
+                      {errors.password && <span className="text-danger">{errors.password}</span>}
+                    </Col>
+                    <Col size={12} sm={6} className="px-1">
+                       <p><strong>Type of User:</strong></p>
+                       <div><label><input name = "typeofuser" type="radio" value="Brand"  onChange={handleInput} />Brand</label>
+                       <label><input name = "typeofuser" type="radio" value="Influencer"  onChange={handleInput} />Influencer</label></div>
+                     
+                    </Col>
+                    <Row>
+                    <Col size={12} sm={6} className="px-1">
+                      <div className = 'mb-3'>
                         <label htmlfor="profileimg"><strong> Select a Profile photo</strong> </label>
                         <input filename={file} type="file"  name ="profileimg" onChange={setimgfile}  className='form-control rounded-0'/>
                         {errors.profileimg && <span className="text-danger">{errors.profileimg}</span>}
                     </div>
-
-                    <button type="submit" className = "btn btn-success w-100 rounded-0">Sign Up</button>
-                    {/* <p> You agree to our terms and policies</p> */}
-                    <Link to = "/login" className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none">Log In</Link>
+                    </Col>
+                    </Row>
+                    <Col size={12} className="px-1">
+                      <button type="submit"><span>Sign Up</span></button>
+                    </Col>
+                  </Row>
                 </form>
-            </div>
-        </div>
+              </div>}
+            </TrackVisibility>
+          </Col>
+        </Row>
+      </Container>
+    </section>
         </>
     )
 }

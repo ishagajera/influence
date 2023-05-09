@@ -6,6 +6,11 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import Validation from './LoginValidation';
 import Navigation from './components/Navigation';
+import { Container, Row, Col } from "react-bootstrap";
+import contactImg from "./assets/img/contact-img.svg";
+import 'animate.css';
+import TrackVisibility from 'react-on-screen';
+import Header from './components/Header';
 function Login() {    
    
     const [values, setValues] = useState({        
@@ -16,11 +21,10 @@ function Login() {
     const [errors, setErrors] = useState({})
     const [backendError, setBackendError] = useState([])
     const handleInput = (event) => {
-        console.log(event)
+        // console.log(event)
         const x = event.target.name        
         setValues(prev => ({...prev, [x]: [event.target.value]}))
     }
-
 
     const handleSubmit =(event) => {        
         event.preventDefault();        
@@ -58,35 +62,50 @@ function Login() {
 
   return (   
     <> 
-    <Navigation/>
-  <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>        
-  <div className='bg-white p-3 rounded w-25'>            
-  <h2>Sign-In</h2>            
-  {                
-    backendError ? backendError.map( e => (                    
-    <p className='text-danger'>{e.msg}</p>                 
-    )) : <span></span>            
-    }            
-    <form action="" onSubmit={handleSubmit}>                
-    <div className='mb-3'>                    
-    <label htmlFor="email"><strong>Email</strong></label>                    
-    <input type="email" placeholder='Enter Email' name='email'                    
-    onChange={handleInput} className='form-control rounded-0'/>                    
-    {errors.email && <span className='text-danger'> {errors.email}</span>}                
-    </div>                
-    <div className='mb-3'>                    
-    <label htmlFor="password"><strong>Password</strong></label>                    
-    <input type="password" placeholder='Enter Password' name='password'                    
-    onChange={handleInput} className='form-control rounded-0'/>                    
-    {errors.password && <span className='text-danger'> {errors.password}</span>}                
-    </div>
-                 
-    <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>                
-    {/* <p>You agree to our terms and policies</p>                 */}
-    <Link to="/signup" className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>Create Account</Link>            
-    </form>        
-    </div>    
-    </div>  
+    <Header/>
+     <section className="contact" id="connect">
+      <Container>
+        {                
+            backendError ? backendError.map( e => (                    
+            <p className='text-danger'>{e.msg}</p>                 
+            )) : <span></span>            
+        } 
+        <Row className="align-items-center">
+          <Col size={12} md={6}>
+            <TrackVisibility>
+              {({ isVisible }) =>
+                <img className={isVisible ? "animate__animated animate__zoomIn" : ""} src={contactImg} alt="Contact Us"/>
+              }
+            </TrackVisibility>
+          </Col>
+          <Col size={12} md={6}>
+            <TrackVisibility>
+              {({ isVisible }) =>
+                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
+                <h2>Login</h2>
+                <form onSubmit={handleSubmit}>
+                  <Row>
+                    <Col size={12} sm={6} className="px-1">
+                      <input type="email" name= "email" placeholder="Email Address"  onChange={handleInput} />
+                      {errors.email && <span className='text-danger'> {errors.email}</span>} 
+                    </Col>
+                    <Col size={12} sm={6} className="px-1">
+                      <input type="password" name = "password" placeholder="Password"  onChange={handleInput} />
+                      {errors.password && <span className='text-danger'> {errors.password}</span>}   
+                    </Col>
+                  
+                    <Col size={12} className="px-1">
+                      <button type="submit"><span>Login</span></button>
+                    </Col>
+                  </Row>
+                </form>
+              </div>}
+            </TrackVisibility>
+          </Col>
+        </Row>
+      </Container>
+    </section> 
     </>
+    
     )}
 export default Login

@@ -149,27 +149,30 @@ app.post('/login',[
 
 app.post('/form', upload_post.single("files"), (req, res) => {
     const sql_get_username = "SELECT * FROM login WHERE email = ?";
-    const sql_insert = "INSERT INTO posts (username,productname,productdesc,category,img) VALUES (?)";
-    const values = [   
-        req.body.useremail,     
-        req.body.productname,        
-        req.body.productdesc,        
-        req.body.category,   
-        req.file.filename, 
-    ];
+    const sql_insert = "INSERT INTO posts (productname,productdesc,category,img,username) VALUES (?)";
+    
  
     db.query(sql_get_username, [req.body.useremail], (err, data) => {
-        if(data.length === 0) {
-            return res.json("Error");        
-        } 
-        return res.json(data);    
+       
+            if(data.length === 0) {
+                return res.json("Error");        
+            } 
+            username_fetched = data[0].username
+            const values = [    
+                req.body.productname,        
+                req.body.productdesc,        
+                req.body.category,   
+                req.file.filename, 
+                username_fetched,   
+            ];
+            db.query(sql_insert, [values], (err, data) => {
+                if(err) {
+                    return res.json("Error");        
+                } 
+                return res.json("Success");    
+                })
         })
-    db.query(sql_insert, [values], (err, data) => {
-        if(err) {
-            return res.json("Error");        
-        } 
-        return res.json("Success");    
-        })
+    
     })  
 
 app.get("/getdata",(req,res)=>{
@@ -189,8 +192,9 @@ app.get("/getdata",(req,res)=>{
 
 //display influencer profile - myProfile option
 app.get("/getinfluencerdata",(req, res) => {
-        const sql_get_user = "SELECT * FROM influencer_data c, login n WHERE c.Username = n.Username and n.Username=?";
+        const sql_get_user = "SELECT * FROM influencer_data c, login n,  influencer_categories ic , ratings r WHERE c.Username = n.Username and ic.username = c.Username and r.username = ic.username and n.Username=?";
         const sql_get_username = "SELECT * FROM login WHERE email = ?";
+        // const sql_catgory = "Select Category1 from influencer_categories where username =?";
         
         try {
             db.query(sql_get_username, [req.query.useremail], (err, data) => {
@@ -203,8 +207,10 @@ app.get("/getinfluencerdata",(req, res) => {
                 
                     if(err){
                         console.log("error display my profile")
-                    }else{
+                    }
+                    else{
                         res.status(201).json({status:201,data:result})
+
                     }
                 })
 
@@ -219,7 +225,7 @@ app.get("/getinfluencerdata",(req, res) => {
 
 //display influencer profile after clicking view profile button on explore influencers page
 app.get("/showinfprofile",(req,res)=>{
-    const sql_get_user = "SELECT * FROM influencer_data c, login n WHERE c.Username = n.Username and n.Username=?";
+    const sql_get_user = "SELECT * FROM influencer_data c, login n,  influencer_categories ic , ratings r WHERE c.Username = n.Username and ic.username = c.Username and r.username = ic.username and n.Username=?";
     var username_fetched = req.query.username;
     try {
       
